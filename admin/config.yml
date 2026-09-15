@@ -1,0 +1,37 @@
+# LOGIN SETUP REQUIRED: GitHub Pages cannot run an OAuth server or protect secrets.
+# Deploy a Decap-compatible external OAuth provider separately. Example instructions:
+# https://github.com/vencax/netlify-cms-github-oauth-provider
+# Replace backend.base_url below with that provider's HTTPS origin (no trailing slash).
+# For the example provider, leave auth_endpoint as auth and register a GitHub OAuth App:
+# Name: Ahmad's Notes CMS
+# Homepage URL: https://ahmad.anasweh.com
+# Authorization callback URL: https://YOUR-PROVIDER-HOST/callback
+# Put the App's Client ID and generated Client Secret ONLY in the provider's private
+# environment settings as OAUTH_CLIENT_ID and OAUTH_CLIENT_SECRET, never in this repo.
+# Provider settings: NODE_ENV=production, ORIGINS=ahmad\.anasweh\.com,
+# REDIRECT_URL=https://YOUR-PROVIDER-HOST/callback. See SETUP.md for the full checklist.
+# Other providers may use different variable names or callback/authentication paths.
+backend:
+  name: github
+  repo: AhmadAnasweh/AhmadAnasweh.github.io
+  branch: main
+  base_url: https://oauth-provider.example.com
+  auth_endpoint: auth
+
+site_url: https://ahmad.anasweh.com
+display_url: https://ahmad.anasweh.com
+media_folder: "notes/files"
+public_folder: "/notes/files"
+
+collections:
+  - name: notes
+    label: Notes
+    folder: notes
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Body, name: body, widget: markdown }
+      - { label: File, name: file, widget: file, required: false }
