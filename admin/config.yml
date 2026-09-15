@@ -1,22 +1,20 @@
-# LOGIN SETUP REQUIRED: GitHub Pages cannot run an OAuth server or protect secrets.
-# Deploy a Decap-compatible external OAuth provider separately. Example instructions:
-# https://github.com/vencax/netlify-cms-github-oauth-provider
-# Replace backend.base_url below with that provider's HTTPS origin (no trailing slash).
-# For the example provider, leave auth_endpoint as auth and register a GitHub OAuth App:
+# LOGIN SETUP: Netlify's managed OAuth service handles authentication.
+# Register a GitHub OAuth App with these exact settings:
 # Name: Ahmad's Notes CMS
 # Homepage URL: https://ahmad.anasweh.com
-# Authorization callback URL: https://YOUR-PROVIDER-HOST/callback
-# Put the App's Client ID and generated Client Secret ONLY in the provider's private
-# environment settings as OAUTH_CLIENT_ID and OAUTH_CLIENT_SECRET, never in this repo.
-# Provider settings: NODE_ENV=production, ORIGINS=ahmad\.anasweh\.com,
-# REDIRECT_URL=https://YOUR-PROVIDER-HOST/callback. See SETUP.md for the full checklist.
-# Other providers may use different variable names or callback/authentication paths.
+# Authorization callback URL: https://api.netlify.com/auth/done
+# Save Client ID and Client Secret in Netlify project ahmad-anasweh-notes-auth:
+# Project configuration > Access & security > OAuth > Install provider > GitHub.
+# Never commit the secret. No secret or client ID belongs in this file.
+# site_domain selects the Netlify authentication project; the site stays on Pages.
+# See SETUP.md for direct links and the remaining steps.
 backend:
   name: github
   repo: AhmadAnasweh/AhmadAnasweh.github.io
   branch: main
-  base_url: https://oauth-provider.example.com
+  base_url: https://api.netlify.com
   auth_endpoint: auth
+  site_domain: ahmad-anasweh-notes-auth.netlify.app
 
 site_url: https://ahmad.anasweh.com
 display_url: https://ahmad.anasweh.com

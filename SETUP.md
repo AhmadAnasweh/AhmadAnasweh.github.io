@@ -1,86 +1,70 @@
-# Launch and editing checklist
+﻿# Setup status and editor login
 
-## 1. Enable GitHub Pages immediately after the replacement is pushed
+## Already completed
 
-Open https://github.com/AhmadAnasweh/AhmadAnasweh.github.io/settings/pages.
-Under **Build and deployment**, select **Deploy from a branch**, choose **main**
-and **/(root)**, then Save. Under **Custom domain**, enter `ahmad.anasweh.com`
-and Save. The old site's Pages settings do not carry over to the replacement.
+- Public repository: https://github.com/AhmadAnasweh/AhmadAnasweh.github.io
+- Website: https://ahmad.anasweh.com
+- GitHub Pages publishes main, root folder; custom domain and Enforce HTTPS enabled.
+- Netlify authentication project: ahmad-anasweh-notes-auth
+- Netlify project ID: 98e15a73-c6e9-4ba0-ba02-b7dfbf1c5f3d
+- Decap uses Netlify's managed OAuth service at https://api.netlify.com.
+- The public website remains on GitHub Pages. GoDaddy DNS needs no changes.
 
-Wait for the domain check and certificate provisioning, then enable **Enforce HTTPS**.
-The public site can work before CMS authentication is configured.
-DNS at GoDaddy does not need to change: the repository has the same name and the
-existing CNAME still points to `AhmadAnasweh.github.io`.
+No custom OAuth server, site build, or Node dependency is needed to run the website.
+Netlify stores the OAuth credentials privately and handles the authentication exchange.
+The authentication project does not need to publish a copy of the notes website.
 
-`.nojekyll` bypasses Jekyll and preserves underscore-prefixed files. There is no
-custom GitHub Action, dependency installation, or site build. GitHub still performs
-its normal Pages publishing/deployment operation. `.github/` is intentionally empty
-locally; Git does not track empty directories.
+## 1. Register your GitHub OAuth App
 
-## 2. Set up a separate OAuth service
+Open https://github.com/settings/applications/new and enter:
 
-OAuth lets GitHub authorize the editor to save notes to your repository.
-The GitHub backend requires a server to exchange credentials; GitHub Pages cannot
-run it. Creating an OAuth App alone is insufficient.
+| Field | Value |
+| --- | --- |
+| Application name | Ahmad's Notes CMS |
+| Homepage URL | https://ahmad.anasweh.com |
+| Description | Browser editor for Ahmad's Notes (optional) |
+| Authorization callback URL | https://api.netlify.com/auth/done |
 
-Choose a host that can run a Decap-compatible OAuth service over HTTPS. One concrete
-implementation is https://github.com/vencax/netlify-cms-github-oauth-provider.
-Deploy that separate project using its hosting instructions. It needs a Node-capable
-service host; this notes website itself has no Node dependency. Obtain the service's
-HTTPS URL, for example `https://YOUR-PROVIDER-HOST` using the host's supplied domain.
-Do not use that literal placeholder or change your existing GoDaddy DNS.
+Leave Enable Device Flow unchecked. Click Register application.
+Copy the Client ID. Click Generate a new client secret.
 
-## 3. Create the GitHub OAuth App
+## 2. Save the credentials in Netlify
 
-In your personal GitHub settings, open **Developer settings → OAuth Apps → New OAuth App**
-at https://github.com/settings/applications/new. For the example provider above use:
+Open https://app.netlify.com/projects/ahmad-anasweh-notes-auth/configuration/access.
+Find OAuth, then Authentication Providers, and click Install provider.
+Choose GitHub, enter the Client ID and Client Secret from step 1, and save.
+These values go in the provider form, not environment variables or the repository.
+Do not paste the secret into chat or commit it to GitHub.
 
-- **Application name:** `Ahmad's Notes CMS`
-- **Homepage URL:** `https://ahmad.anasweh.com`
-- **Application description:** `Browser editor for Ahmad's Notes` (optional)
-- **Authorization callback URL:** `https://YOUR-PROVIDER-HOST/callback`, replacing
-  the host with the actual service URL from step 2. This is the OAuth server, not `/admin/`.
-- Leave **Enable Device Flow** unchecked.
+The CMS configuration already selects this Netlify project using backend.site_domain.
+No further config.yml changes are needed.
 
-Click **Register application**, copy the **Client ID**, then click **Generate a new
-client secret**. Save both in the OAuth service host's private environment settings:
+## 3. Test the editor
 
-```text
-OAUTH_CLIENT_ID=<your GitHub OAuth App Client ID>
-OAUTH_CLIENT_SECRET=<your GitHub OAuth App Client Secret>
-NODE_ENV=production
-ORIGINS=ahmad\.anasweh\.com
-REDIRECT_URL=https://YOUR-PROVIDER-HOST/callback
+Visit https://ahmad.anasweh.com/admin/ and click Login with GitHub.
+Authorize your OAuth App while signed in as AhmadAnasweh (or an account with push access).
+Create a note, optionally attach a file, and publish. Wait for Pages deployment.
+Login and publishing remain unverified until the OAuth App credentials are configured.
+
+## Maintain navigation
+
+After publishing a note, edit _sidebar.md using GitHub's browser editor and add:
+
+```markdown
+- [Note title](/notes/note-title.md)
 ```
 
-The ORIGINS value above is a regular expression with literal dots, as expected by
-this provider. Restart/redeploy the OAuth service after setting its environment.
-Do not paste the secret into the CMS config, browser code, notes, or GitHub commits.
-If you choose another Decap-compatible provider, follow its exact callback path,
-origin format, and environment variable names instead.
+Use the actual filename. Update/remove links when renaming/deleting notes.
+Docsify cannot enumerate a static directory; search discovers notes from sidebar links.
 
-## 4. Connect the editor
+## Hosting notes
 
-Edit `admin/config.yml` on GitHub. Replace `backend.base_url` with the actual HTTPS
-OAuth service origin, without a trailing slash. For the example provider, keep
-`auth_endpoint: auth`. Commit the change to main and wait for Pages to publish.
-
-Visit https://ahmad.anasweh.com/admin/, click **Login with GitHub**, and authorize
-your OAuth App while signed in as AhmadAnasweh (or an account with push access).
-Create a note, optionally attach a file, and publish. Verify the note and attachment
-in the public site after deployment. OAuth login cannot be tested until the real
-provider is deployed and configured.
-
-## 5. Maintain navigation
-
-After publishing a note, edit `_sidebar.md` using GitHub's browser editor and add
-`- [Note title](/notes/note-title.md)` using the actual filename. Commit to main.
-Update/remove links when renaming/deleting notes. Docsify does not enumerate a static
-directory; search discovers notes through these sidebar links.
+.nojekyll bypasses Jekyll and preserves underscore-prefixed files. There is no custom
+GitHub Action or site build. GitHub still performs its normal Pages deployment.
+.github/ is intentionally empty locally; Git does not track empty directories.
 
 ## References
 
-- https://decapcms.org/docs/github-backend/
+- https://docs.netlify.com/manage/security/secure-access-to-sites/oauth-provider-tokens/
 - https://decapcms.org/docs/backends-overview/
-- https://github.com/vencax/netlify-cms-github-oauth-provider
-- https://docsify.js.org/#/more-pages
+- https://decapcms.org/docs/github-backend/
