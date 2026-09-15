@@ -14,7 +14,7 @@ backend:
   branch: main
   base_url: https://api.netlify.com
   auth_endpoint: auth
-  site_domain: ahmad-anasweh-notes-auth.netlify.app
+  site_domain: ahmad.anasweh.com
 
 site_url: https://ahmad.anasweh.com
 display_url: https://ahmad.anasweh.com

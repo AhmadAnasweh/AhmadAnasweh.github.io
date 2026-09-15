@@ -36,7 +36,10 @@ Choose GitHub, enter the Client ID and Client Secret from step 1, and save.
 These values go in the provider form, not environment variables or the repository.
 Do not paste the secret into chat or commit it to GitHub.
 
-The CMS configuration already selects this Netlify project using backend.site_domain.
+The CMS configuration selects this Netlify project using backend.site_domain:
+ahmad.anasweh.com. This domain is also registered as the Netlify project's custom
+domain so the OAuth popup can return its result to the editor's actual origin.
+DNS continues pointing to GitHub Pages; do not switch DNS to Netlify.
 No further config.yml changes are needed.
 
 ## 3. Test the editor
