@@ -1,7 +1,6 @@
 ---
 title: Investigation walkthrough
 ---
-
 Use this outline for a lab or sanitized case study.
 
 ## Question
@@ -17,13 +16,15 @@ Record the environment, data sources, timezone, and analysis window.
 Document relevant artifacts, tool versions, and reproducible commands.
 
 ```powershell
-Get-FileHash -Algorithm SHA256 .\sample.txt
+Get-FileHash -Algorithm SHA256 .\sample.txtsdfgdfgdfg
 ```
+
+![](/notes/files/whatsapp-image-2026-09-13-at-11.11.05-pm.jpeg)
 
 ## Timeline
 
-| Time (UTC) | Observation | Source |
-| --- | --- | --- |
+| Time (UTC)    | Observation        | Source              |
+| ------------- | ------------------ | ------------------- |
 | Add timestamp | Describe the event | Record the artifact |
 
 ## Findings
