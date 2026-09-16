@@ -36,6 +36,9 @@
         if (url.origin === window.location.origin && url.pathname.startsWith('/notes/files/') &&
             decodedPath.startsWith('/notes/files/') && !decodedPath.split(/[\\/]/).includes('..') &&
             url.pathname.length > '/notes/files/'.length) {
+          if (/\.(png|jpe?g|gif|webp|avif)$/i.test(url.pathname)) {
+            body += '\n\n<p><img src="' + escapeHtml(url.pathname) + '" alt="Attached image" loading="lazy"></p>\n';
+          }
           body += '\n\n<p><a data-no-router download href="' + escapeHtml(url.pathname) + '">Download attachment</a></p>\n';
         }
       } catch (error) { console.warn('Invalid attachment path; download link omitted.'); }

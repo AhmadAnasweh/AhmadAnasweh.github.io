@@ -45,6 +45,18 @@
       subMaxLevel: 2,
       auto2top: true,
       notFoundPage: true,
+      markdown: function (marked, renderer) {
+        var renderImage = renderer.image;
+        renderer.image = function (href, title, text) {
+          // Docsify 4 otherwise prepends the note folder to root-relative images.
+          if (href && href.charAt(0) === '/' && href.charAt(1) !== '/') {
+            href = new URL(href, window.location.origin).href;
+          }
+          return renderImage.call(this, href, title, text);
+        };
+        marked.setOptions({ renderer: renderer });
+        return marked;
+      },
       search: { paths: 'auto', namespace: 'ahmad-notes-v2', maxAge: 300000, placeholder: 'Search notes', noData: 'No matching notes.', depth: 3 },
       copyCode: { buttonText: 'Copy', successText: 'Copied', errorText: 'Try again' }
     };

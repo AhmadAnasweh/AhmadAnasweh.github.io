@@ -19,7 +19,7 @@ Document relevant artifacts, tool versions, and reproducible commands.
 Get-FileHash -Algorithm SHA256 .\sample.txtsdfgdfgdfg
 ```
 
-![](/notes/files/whatsapp-image-2026-09-13-at-11.11.05-pm.jpeg)
+> The image previously shown here was removed from the media library. Upload it again to restore it.
 
 ## Timeline
 

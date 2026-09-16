@@ -21,6 +21,22 @@ Use the optional File field to upload a reference file. Its download link appear
 [Download reference](/notes/files/reference.pdf ':ignore')
 ```
 
+## Images and screenshots
+
+Copy an image (for example, with Windows Snipping Tool), click inside **Body**, and
+press **Ctrl+V**. On a Mac, use **Cmd+V**. The image is added at the end of the note.
+You can also click **Add image** to choose one or more files. Click **Publish** to
+save the note and its images together. Use PNG, JPEG, GIF, WebP, or AVIF images up
+to 10 MB each with this helper. Change the default "Screenshot" description to
+describe what the image shows.
+
+Copy the image itself, not just its filename or web address. If your browser does
+not put image data on the clipboard, use **Add image**. Text pasting still works normally.
+
+An image selected in the optional **File** field is shown below the note with a
+download link. Images inserted into **Body** appear within the note. Deleting an
+image in Media removes its file; update any notes using it to avoid broken images.
+
 ## Suggested topics
 
 - Alert triage and detection queries

@@ -8,4 +8,5 @@ No Action or build step is required. -->
   - [Start here](/notes/README.md)
   - [Investigation walkthrough](/notes/investigation-walkthrough.md)
   - [Notebook self-check](/notes/notebook-self-check.md)
+  - [AADS](/notes/aads.md)
 - <a href="/admin/" data-no-router data-nosearch>Edit notes</a>

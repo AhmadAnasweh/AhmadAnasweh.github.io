@@ -32,4 +32,4 @@ collections:
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Body, name: body, widget: markdown }
-      - { label: File, name: file, widget: file, required: false }
+      - { label: File, name: file, widget: file, required: false, hint: "Optional attachment below the note. For images in the note body, use Add image or paste into Body." }
