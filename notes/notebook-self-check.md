@@ -27,3 +27,7 @@ Sign in at /admin/, change a lab note, and publish. Add new note links to _sideb
 ## Authentication boundary
 
 The audit used an existing authenticated GitHub CLI token in an isolated browser to test CMS reading, uploads, and publishing. This does not prove the user-interactive GitHub OAuth popup flow; that must also complete in your own browser.
+
+![Screenshot](/notes/files/image-1789532663290-3cfd2e25.png)
+
+![Screenshot](/notes/files/image-1789532663361-41b951fb.png)
