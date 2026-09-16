@@ -47,7 +47,10 @@ No further config.yml changes are needed.
 Visit https://ahmad.anasweh.com/admin/ and click Login with GitHub.
 Authorize your OAuth App while signed in as AhmadAnasweh (or an account with push access).
 Create a note, optionally attach a file, and publish. Wait for Pages deployment.
-Login and publishing remain unverified until the OAuth App credentials are configured.
+The provider is configured and redirects to GitHub. CMS reading, uploading, and
+publishing were verified with an existing authenticated GitHub session during the
+audit. The interactive OAuth popup must also finish in your browser; the audit
+does not claim that a CLI token tests GitHub's OAuth code exchange.
 
 ## Maintain navigation
 

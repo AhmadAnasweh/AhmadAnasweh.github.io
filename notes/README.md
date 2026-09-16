@@ -7,7 +7,7 @@ Welcome to the notebook. Keep one topic or investigation per note.
 ## Write a note
 
 1. Open [the editor](/admin/ ':ignore') and sign in with GitHub once OAuth is configured.
-2. Choose **Notes → New Notes**, add a title and body, and optionally upload a file.
+2. Choose **Notes → + Notes**, add a title and body, and optionally upload a file.
 3. Publish the note to save it to the main branch.
 4. Edit `_sidebar.md` on GitHub and add a link such as `- [My note](/notes/my-note.md)`.
 

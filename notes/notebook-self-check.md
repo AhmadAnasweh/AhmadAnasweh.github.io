@@ -12,9 +12,9 @@ Open Home, follow a sidebar link, and refresh a note directly. On a phone, use t
 
 Search for notebook validation. Check that the result opens this note. Copy this command and compare it with the original:
 
-\`\`\`powershell
+```powershell
 Get-FileHash -Algorithm SHA256 .\notebook-check.txt
-\`\`\`
+```
 
 ## Attachments
 
