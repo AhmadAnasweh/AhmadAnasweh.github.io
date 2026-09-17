@@ -246,19 +246,40 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .profile-logo:hover { border-color: var(--accent); transform: translateY(-2px); }
 .profile-logo img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.profile-logo--expanded {
+.profile-card {
+  position: fixed;
   top: 50%;
-  left: auto;
   right: 50%;
   z-index: 40;
-  width: min(72vw, 480px);
-  height: min(72vw, 480px);
-  border-color: var(--accent);
-  cursor: zoom-out;
+  width: min(78vw, 500px);
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-raised);
   box-shadow: 0 24px 64px rgba(0, 0, 0, .52);
-  transform: translate(50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(50%, -50%) scale(.94);
+  transition: opacity .2s ease, transform .2s ease;
 }
-.profile-logo--expanded:hover { transform: translate(50%, -50%); }
+.profile-card--open { opacity: 1; pointer-events: auto; transform: translate(50%, -50%) scale(1); }
+.profile-card img { display: block; width: 100%; border-radius: 10px; }
+.profile-card__links { display: flex; gap: 10px; padding-top: 12px; }
+.profile-card__link {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: #f4f8fc;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.profile-card__link:hover { border-color: var(--accent); transform: translateY(-1px); }
+.profile-card__link--linkedin { background: #0a66c2; border-color: #0a66c2; }
+.profile-card__link--github { background: #24292f; }
 
 @media screen and (max-width: 768px) {
   .sidebar { width: 288px; padding-top: 16px; }
@@ -269,6 +290,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .markdown-section h2 { margin-top: 42px; }
   .markdown-section table { display: block; overflow-x: auto; white-space: nowrap; }
   .profile-logo { display: none; }
+  .profile-card { display: none; }
   .top-edit-notes { display: none; }
 }
 

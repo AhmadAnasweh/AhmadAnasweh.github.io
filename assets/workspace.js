@@ -28,18 +28,28 @@
     logo.innerHTML = '<img src="/assets/me.png" alt="Ahmad\'s personal logo">';
     document.body.appendChild(logo);
 
+    var card = document.createElement('aside');
+    card.className = 'profile-card';
+    card.setAttribute('aria-label', 'Ahmad Anasweh profile links');
+    card.innerHTML = '<img src="/assets/me.png" alt="Ahmad Anasweh">' +
+      '<div class="profile-card__links">' +
+      '<a class="profile-card__link profile-card__link--linkedin" href="https://www.linkedin.com/in/ahmad-anasweh/" target="_blank" rel="noopener noreferrer">LinkedIn</a>' +
+      '<a class="profile-card__link profile-card__link--github" href="https://github.com/AhmadAnasweh" target="_blank" rel="noopener noreferrer">GitHub</a>' +
+      '</div>';
+    document.body.appendChild(card);
+
     function closeLogo() {
-      logo.classList.remove('profile-logo--expanded');
+      card.classList.remove('profile-card--open');
       logo.setAttribute('aria-expanded', 'false');
     }
 
     logo.addEventListener('click', function (event) {
       event.stopPropagation();
-      var expanded = logo.classList.toggle('profile-logo--expanded');
+      var expanded = card.classList.toggle('profile-card--open');
       logo.setAttribute('aria-expanded', String(expanded));
     });
     document.addEventListener('click', function (event) {
-      if (!logo.contains(event.target)) closeLogo();
+      if (!logo.contains(event.target) && !card.contains(event.target)) closeLogo();
     });
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') closeLogo();
