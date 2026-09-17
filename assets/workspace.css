@@ -140,7 +140,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .profile-logo {
   position: fixed;
   top: 22px;
-  left: 28px;
+  right: 28px;
   z-index: 20;
   display: block;
   width: 54px;
