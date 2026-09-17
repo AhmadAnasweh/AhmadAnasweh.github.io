@@ -2,10 +2,6 @@
 
 SOC investigations, digital forensics, and incident response — a personal field notebook.
 
-## Explore
-
-- [Investigation walkthrough](notes/investigation-walkthrough.md): a reusable investigation outline.
-
 ## Field notes
 
 Capture the question, record the evidence, and leave enough context to reproduce the result. Use notes for queries, commands, lab walkthroughs, and lessons learned. Attach reference files when they help explain the work.

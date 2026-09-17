@@ -5,6 +5,5 @@ No Action or build step is required. -->
 
 - [Home](/)
 - **Notebook**
-  - [Investigation walkthrough](/notes/investigation-walkthrough.md)
   - [Notebook self-check](/notes/notebook-self-check.md)
 - <a href="/admin/" data-no-router data-nosearch>Edit notes</a>
