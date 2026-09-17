@@ -3,6 +3,8 @@
   'use strict';
   var publishedNotes = null;
   var publishedNotesRequest = null;
+  var selectedCategory = 'all';
+  var visibleNoteCount = 0;
   var categoryLabels = {
     'incident-response': 'Investigations',
     'digital-forensics': 'Digital forensics',
@@ -11,11 +13,12 @@
     'malware-analysis': 'Malware analysis',
     'cloud-security': 'Cloud security',
     'osint': 'OSINT',
+    'cheat-sheets': 'Pinned cheat sheets',
     'reference': 'Reference & workflow'
   };
   var categoryOrder = [
     'incident-response', 'digital-forensics', 'threat-hunting',
-    'detection-engineering', 'malware-analysis', 'cloud-security', 'osint', 'reference'
+    'detection-engineering', 'malware-analysis', 'cloud-security', 'osint', 'cheat-sheets', 'reference'
   ];
 
   function escapeHtml(value) {
@@ -28,11 +31,28 @@
     return '#/' + path.replace(/\.md$/i, '').split('/').map(encodeURIComponent).join('/');
   }
 
-  function fieldFromFrontMatter(content, field) {
+  function metadataFromContent(content) {
     var frontMatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-    if (!frontMatter) return '';
-    var match = frontMatter[1].match(new RegExp('^' + field + ':\\s*(.+?)\\s*$', 'm'));
-    return match ? match[1].replace(/^['"]|['"]$/g, '').trim() : '';
+    if (!frontMatter || !window.jsyaml) return {};
+    try {
+      var metadata = window.jsyaml.load(frontMatter[1], { schema: window.jsyaml.JSON_SCHEMA });
+      return metadata && typeof metadata === 'object' && !Array.isArray(metadata) ? metadata : {};
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function noteFromContent(file, content) {
+    var metadata = metadataFromContent(content);
+    return {
+      path: file.path,
+      title: typeof metadata.title === 'string' && metadata.title.trim() ? metadata.title.trim() : file.name.replace(/\.md$/i, ''),
+      category: typeof metadata.category === 'string' ? metadata.category : 'reference',
+      status: typeof metadata.status === 'string' ? metadata.status : 'draft',
+      tags: Array.isArray(metadata.tags) ? metadata.tags.filter(function (tag) { return typeof tag === 'string'; }) : [],
+      updated: typeof metadata.updated === 'string' ? metadata.updated : '',
+      content: content
+    };
   }
 
   function renderPublishedNotes() {
@@ -40,10 +60,13 @@
     if (!navigation || !publishedNotes) return;
     var currentPath = decodeURIComponent(window.location.hash.split('?')[0]).replace(/^#\//, '');
     var groups = {};
-    publishedNotes.forEach(function (note) {
+    publishedNotes.filter(function (note) {
+      return selectedCategory === 'all' || note.category === selectedCategory;
+    }).forEach(function (note) {
       var category = categoryLabels[note.category] ? note.category : 'reference';
       (groups[category] = groups[category] || []).push(note);
     });
+    visibleNoteCount = Object.keys(groups).reduce(function (count, category) { return count + groups[category].length; }, 0);
     Object.keys(groups).forEach(function (category) {
       groups[category].sort(function (left, right) { return left.title.localeCompare(right.title); });
     });
@@ -63,6 +86,8 @@
     });
     navigation.innerHTML = html + '</ul>';
     improveSidebar();
+    mountSearchTools();
+    renderRecentNotes();
   }
 
   function loadPublishedNotes() {
@@ -83,16 +108,12 @@
             if (!response.ok) throw new Error('Could not load a note.');
             return response.text();
           }).then(function (content) {
-            return {
-              path: file.path,
-              title: fieldFromFrontMatter(content, 'title') || file.name.replace(/\.md$/i, ''),
-              category: fieldFromFrontMatter(content, 'category')
-            };
+            return noteFromContent(file, content);
           });
         }));
       }).then(function (notes) {
         publishedNotes = notes;
-      }).catch(function (error) {
+      }, function (error) {
         // Keep the built-in sidebar as a readable fallback if GitHub is unavailable.
         console.warn('Published note index could not be loaded.', error);
         publishedNotes = null;
@@ -100,6 +121,96 @@
       });
     }
     publishedNotesRequest.then(renderPublishedNotes);
+  }
+
+  function searchText(note) {
+    return [note.title, categoryLabels[note.category] || '', note.status, note.tags.join(' '), note.content]
+      .join(' ').toLocaleLowerCase();
+  }
+
+  function updateSearchCount(count, query) {
+    var counter = document.querySelector('.search-result-count');
+    if (!counter) return;
+    counter.textContent = query ? count + (count === 1 ? ' result' : ' results') :
+      visibleNoteCount + (visibleNoteCount === 1 ? ' note' : ' notes');
+  }
+
+  function renderLiveSearch(value) {
+    var search = document.querySelector('.search');
+    var navigation = document.querySelector('.sidebar-nav');
+    if (!search || !navigation || !publishedNotes) return;
+    var panel = search.querySelector('.results-panel');
+    var query = value.trim().toLocaleLowerCase();
+    if (!query) {
+      panel.classList.remove('show');
+      panel.innerHTML = '';
+      navigation.classList.remove('hide');
+      updateSearchCount(visibleNoteCount, '');
+      return;
+    }
+    var results = publishedNotes.filter(function (note) {
+      return (selectedCategory === 'all' || note.category === selectedCategory) && searchText(note).indexOf(query) !== -1;
+    });
+    panel.innerHTML = results.length ? results.map(function (note) {
+      var plain = note.content.replace(/^---[\s\S]*?---\s*/m, '').replace(/[#*_`>|\[\]()]/g, ' ').replace(/\s+/g, ' ').trim();
+      var position = plain.toLocaleLowerCase().indexOf(query);
+      var excerpt = position < 0 ? plain.slice(0, 120) : plain.slice(Math.max(0, position - 45), position + query.length + 75);
+      return '<a class="matching-post live-search-result" href="' + routeForNote(note.path) + '">' +
+        '<h2>' + escapeHtml(note.title) + '</h2><p>' + escapeHtml(categoryLabels[note.category] || 'Reference & workflow') +
+        (excerpt ? ' · ' + escapeHtml(excerpt) : '') + '</p></a>';
+    }).join('') : '<p class="empty">No matching notes.</p>';
+    panel.classList.add('show');
+    navigation.classList.add('hide');
+    updateSearchCount(results.length, query);
+  }
+
+  function mountSearchTools() {
+    var search = document.querySelector('.search');
+    if (!search || !publishedNotes) return;
+    var input = search.querySelector('input[type="search"]');
+    var toolbar = search.querySelector('.search-tools');
+    if (!input) return;
+    if (!toolbar) {
+      toolbar = document.createElement('div');
+      toolbar.className = 'search-tools';
+      toolbar.innerHTML = '<select class="note-category-filter" aria-label="Filter notes by category"></select><span class="search-result-count" aria-live="polite"></span>';
+      search.querySelector('.input-wrap').insertAdjacentElement('afterend', toolbar);
+      input.addEventListener('input', function (event) {
+        event.stopImmediatePropagation();
+        renderLiveSearch(input.value);
+      }, true);
+      toolbar.querySelector('.note-category-filter').addEventListener('change', function (event) {
+        selectedCategory = event.target.value;
+        renderPublishedNotes();
+        renderLiveSearch(input.value);
+      });
+    }
+    var filter = toolbar.querySelector('.note-category-filter');
+    filter.innerHTML = '<option value="all">All categories</option>' + categoryOrder.filter(function (category) {
+      return publishedNotes.some(function (note) { return note.category === category; });
+    }).map(function (category) {
+      return '<option value="' + category + '">' + escapeHtml(categoryLabels[category]) + '</option>';
+    }).join('');
+    filter.value = selectedCategory;
+    renderLiveSearch(input.value);
+  }
+
+  function renderRecentNotes() {
+    var target = document.getElementById('recent-notes');
+    if (!target || !publishedNotes) return;
+    target.classList.add('recent-notes');
+    var recent = publishedNotes.slice().sort(function (left, right) {
+      return (Date.parse(right.updated) || 0) - (Date.parse(left.updated) || 0);
+    }).slice(0, 5);
+    target.innerHTML = recent.map(function (note) {
+      var date = Date.parse(note.updated);
+      var dateLabel = Number.isNaN(date) ? 'Date not set' : new Date(date).toLocaleDateString(undefined, {
+        year: 'numeric', month: 'short', day: 'numeric'
+      });
+      return '<a class="recent-note" href="' + routeForNote(note.path) + '"><span class="recent-note__category">' +
+        escapeHtml(categoryLabels[note.category] || 'Reference & workflow') + '</span><strong>' + escapeHtml(note.title) +
+        '</strong><small>' + escapeHtml(dateLabel) + '</small></a>';
+    }).join('');
   }
 
   function mountWorkspaceBar() {
@@ -132,6 +243,7 @@
     card.className = 'profile-card';
     card.setAttribute('aria-label', 'Ahmad Anasweh profile links');
     card.innerHTML = '<img src="/assets/me.png" alt="Ahmad Anasweh">' +
+      '<a class="profile-card__about" href="#/notes/about">About this notebook</a>' +
       '<div class="profile-card__links">' +
       '<a class="profile-card__link profile-card__link--linkedin" href="https://www.linkedin.com/in/ahmad-anasweh/" target="_blank" rel="noopener noreferrer">LinkedIn</a>' +
       '<a class="profile-card__link profile-card__link--github" href="https://github.com/AhmadAnasweh" target="_blank" rel="noopener noreferrer">GitHub</a>' +
@@ -150,6 +262,9 @@
     });
     document.addEventListener('click', function (event) {
       if (!logo.contains(event.target) && !card.contains(event.target)) closeLogo();
+    });
+    card.addEventListener('click', function (event) {
+      if (event.target.closest('a')) closeLogo();
     });
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') closeLogo();

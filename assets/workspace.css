@@ -69,6 +69,21 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .search .matching-post h2 { font-size: 14px; color: #edf5fb; }
 .search .matching-post p { color: var(--muted); }
 .search .search-keyword { color: var(--accent-ink); background: var(--accent); border-radius: 2px; padding: 0 2px; }
+.search .clear-button { display: none !important; }
+.search-tools { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
+.note-category-filter {
+  min-width: 0;
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+  background: var(--surface-raised);
+  font: inherit;
+  font-size: 12px;
+}
+.search-result-count { color: var(--muted); font-size: 11px; white-space: nowrap; }
+.live-search-result { display: block; text-decoration: none; }
 .search-clear {
   position: absolute;
   top: 50%;
@@ -203,9 +218,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .top-edit-notes:hover { border-color: var(--accent); color: var(--accent); background: var(--surface-hover); }
 
-.note-category {
+.note-meta { display: flex; flex-wrap: wrap; gap: 7px; margin: -8px 0 18px; }
+.note-category, .note-status, .note-tag {
   display: inline-flex;
-  margin: -8px 0 18px !important;
   padding: 4px 9px;
   border: 1px solid rgba(99, 217, 189, .34);
   border-radius: 999px;
@@ -217,6 +232,11 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   line-height: 1.2;
   text-transform: uppercase;
 }
+.note-status { border-color: rgba(255, 255, 255, .18); color: #d5e0ea !important; background: rgba(255, 255, 255, .07); }
+.note-status--tested { border-color: rgba(99, 217, 189, .4); color: #8ee8d3 !important; background: rgba(99, 217, 189, .1); }
+.note-status--in-use { border-color: rgba(111, 205, 255, .4); color: #9edfff !important; background: rgba(111, 205, 255, .1); }
+.note-status--archived { color: #93a1af !important; background: rgba(147, 161, 175, .1); }
+.note-tag { border-color: var(--line); color: var(--muted) !important; background: var(--surface-raised); font-weight: 650; letter-spacing: .02em; text-transform: none; }
 .note-category--reference { border-color: rgba(159, 180, 255, .35); color: #b5c4ff !important; background: rgba(159, 180, 255, .1); }
 .note-category--digital-forensics { border-color: rgba(191, 152, 255, .38); color: #ceb2ff !important; background: rgba(191, 152, 255, .1); }
 .note-category--threat-hunting { border-color: rgba(255, 188, 112, .4); color: #ffd09a !important; background: rgba(255, 188, 112, .1); }
@@ -224,6 +244,26 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .note-category--malware-analysis { border-color: rgba(255, 132, 156, .4); color: #ffacc0 !important; background: rgba(255, 132, 156, .1); }
 .note-category--cloud-security { border-color: rgba(104, 220, 190, .4); color: #91ead7 !important; background: rgba(104, 220, 190, .1); }
 .note-category--osint { border-color: rgba(234, 212, 111, .4); color: #f3e58e !important; background: rgba(234, 212, 111, .1); }
+.note-category--cheat-sheets { border-color: rgba(255, 188, 112, .4); color: #ffd09a !important; background: rgba(255, 188, 112, .1); }
+
+.recent-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 20px 0 36px; }
+.recent-note {
+  display: flex;
+  min-height: 128px;
+  flex-direction: column;
+  gap: 9px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text);
+  background: var(--surface-raised);
+  text-decoration: none;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.recent-note:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+.recent-note__category { color: var(--accent); font-size: 10px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.recent-note strong { color: #f4f8fc; font-size: 15px; line-height: 1.35; }
+.recent-note small { margin-top: auto; color: var(--muted); font-size: 12px; }
 
 .sidebar-toggle { border-color: var(--line); }
 
@@ -264,6 +304,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 }
 .profile-card--open { opacity: 1; pointer-events: auto; transform: translate(50%, -50%) scale(1); }
 .profile-card img { display: block; width: 100%; border-radius: 10px; }
+.profile-card__about { display: block; padding: 12px 2px 0; color: var(--text); font-size: 15px; font-weight: 700; text-align: center; text-decoration: none; }
+.profile-card__about:hover { color: var(--accent); }
 .profile-card__links { display: flex; gap: 10px; padding-top: 12px; }
 .profile-card__link {
   flex: 1;

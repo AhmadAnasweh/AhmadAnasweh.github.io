@@ -54,14 +54,12 @@ does not claim that a CLI token tests GitHub's OAuth code exchange.
 
 ## Maintain navigation
 
-After publishing a note, edit _sidebar.md using GitHub's browser editor and add:
-
-```markdown
-- [Note title](/notes/note-title.md)
-```
-
-Use the actual filename. Update/remove links when renaming/deleting notes.
-Docsify cannot enumerate a static directory; search discovers notes from sidebar links.
+After publishing a note, refresh the public website after GitHub Pages deploys it.
+The sidebar automatically reads published Markdown notes from the public GitHub
+repository and groups them by the Category field. Search uses the same published
+note index, so no `_sidebar.md` edit is required. Set Category, Status, Tags, and
+Last updated in the editor to keep navigation, filtering, labels, and the homepage
+recent-notes section useful.
 
 ## Hosting notes
 

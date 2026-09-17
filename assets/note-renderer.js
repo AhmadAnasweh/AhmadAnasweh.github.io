@@ -28,11 +28,38 @@
       'malware-analysis': 'Malware analysis',
       'cloud-security': 'Cloud security',
       'osint': 'OSINT',
+      'cheat-sheets': 'Pinned cheat sheets',
       'reference': 'Reference & workflow'
     };
+    var statusNames = {
+      'draft': 'Draft',
+      'tested': 'Tested',
+      'in-use': 'In use',
+      'archived': 'Archived'
+    };
+    var tagNames = {
+      'windows': 'Windows', 'microsoft-365': 'Microsoft 365', 'linux': 'Linux',
+      'splunk': 'Splunk', 'sigma': 'Sigma', 'malware': 'Malware',
+      'phishing': 'Phishing', 'azure': 'Azure', 'network': 'Network', 'edr': 'EDR'
+    };
+    var badges = [];
     if (typeof metadata.category === 'string' && categoryNames[metadata.category]) {
-      body = '<p class="note-category note-category--' + metadata.category + '">' +
-        escapeHtml(categoryNames[metadata.category]) + '</p>\n\n' + body;
+      badges.push('<span class="note-category note-category--' + metadata.category + '">' +
+        escapeHtml(categoryNames[metadata.category]) + '</span>');
+    }
+    if (typeof metadata.status === 'string' && statusNames[metadata.status]) {
+      badges.push('<span class="note-status note-status--' + metadata.status + '">' +
+        escapeHtml(statusNames[metadata.status]) + '</span>');
+    }
+    if (Array.isArray(metadata.tags)) {
+      metadata.tags.forEach(function (tag) {
+        if (typeof tag === 'string' && tagNames[tag]) {
+          badges.push('<span class="note-tag">' + escapeHtml(tagNames[tag]) + '</span>');
+        }
+      });
+    }
+    if (badges.length) {
+      body = '<div class="note-meta">' + badges.join('') + '</div>\n\n' + body;
     }
     // Tokenize the body so a "# heading" inside a code fence is not mistaken for H1.
     var hasHeading = originalLexer(body).some(function (token) {

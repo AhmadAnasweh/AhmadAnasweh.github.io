@@ -1,6 +1,9 @@
 ---
 title: Notebook self-check
 category: reference
+status: tested
+tags: [windows]
+updated: 2026-09-17T13:41:51Z
 file: /notes/files/notebook-check.txt
 ---
 A repeatable check for this public notebook. This note and its harmless text attachment were published through the Decap editor during the September 2026 audit.

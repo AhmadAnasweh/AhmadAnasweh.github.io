@@ -29,11 +29,13 @@ collections:
     slug: "{{slug}}"
     extension: md
     format: frontmatter
-    summary: "{{category}} | {{title}}"
-    sortable_fields: ["category", "title", "commit_date"]
+    summary: "{{status}} | {{category}} | {{title}}"
+    sortable_fields: ["status", "category", "updated", "title", "commit_date"]
     view_groups:
       - label: Category
         field: category
+      - label: Status
+        field: status
     view_filters:
       - label: Investigations
         field: category
@@ -56,6 +58,9 @@ collections:
       - label: OSINT
         field: category
         pattern: osint
+      - label: Pinned cheat sheets
+        field: category
+        pattern: cheat-sheets
       - label: Reference & workflow
         field: category
         pattern: reference
@@ -73,7 +78,41 @@ collections:
           - { label: "Malware analysis", value: "malware-analysis" }
           - { label: "Cloud security", value: "cloud-security" }
           - { label: "OSINT", value: "osint" }
+          - { label: "Pinned cheat sheets", value: "cheat-sheets" }
           - { label: "Reference & workflow", value: "reference" }
+      - label: Status
+        name: status
+        widget: select
+        default: draft
+        hint: "Set the note's current reliability or lifecycle state."
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Tested", value: "tested" }
+          - { label: "In use", value: "in-use" }
+          - { label: "Archived", value: "archived" }
+      - label: Tags
+        name: tags
+        widget: select
+        multiple: true
+        required: false
+        hint: "Use tags to make related platforms, tools, and investigation types easier to find."
+        options:
+          - { label: "Windows", value: "windows" }
+          - { label: "Microsoft 365", value: "microsoft-365" }
+          - { label: "Linux", value: "linux" }
+          - { label: "Splunk", value: "splunk" }
+          - { label: "Sigma", value: "sigma" }
+          - { label: "Malware", value: "malware" }
+          - { label: "Phishing", value: "phishing" }
+          - { label: "Azure", value: "azure" }
+          - { label: "Network", value: "network" }
+          - { label: "EDR", value: "edr" }
+      - label: Last updated
+        name: updated
+        widget: datetime
+        default: "{{now}}"
+        picker_utc: true
+        hint: "For an existing note, set this to today whenever you make a meaningful update."
       - { label: Title, name: title, widget: string }
       - { label: Body, name: body, widget: markdown }
       - { label: File, name: file, widget: file, required: false, hint: "Optional attachment below the note. For images in the note body, use Add image or paste into Body." }
