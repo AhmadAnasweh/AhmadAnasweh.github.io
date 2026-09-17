@@ -1,5 +1,6 @@
 ---
 title: Sample SOC investigation walkthrough
+category: incident-response
 ---
 This is a sanitized example you can copy when starting a new investigation note.
 

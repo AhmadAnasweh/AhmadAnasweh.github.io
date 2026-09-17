@@ -60,15 +60,54 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   color: var(--text);
   border: 1px solid transparent;
   border-radius: 7px;
-  padding: 9px 34px 9px 11px;
+  padding: 10px 38px 10px 12px;
 }
 .search input::placeholder { color: #9aabba; opacity: 1; }
 .search input:focus { box-shadow: 0 0 0 3px rgba(99, 217, 189, .16); border-color: var(--accent); }
 .search .matching-post, .search { border-color: var(--line) !important; }
-.search .matching-post { padding: 7px 1px; }
+.search .matching-post { padding: 10px 4px; border-bottom: 1px solid rgba(43, 59, 75, .7); }
 .search .matching-post h2 { font-size: 14px; color: #edf5fb; }
 .search .matching-post p { color: var(--muted); }
 .search .search-keyword { color: var(--accent-ink); background: var(--accent); border-radius: 2px; padding: 0 2px; }
+.search-clear {
+  position: absolute;
+  top: 50%;
+  right: 7px;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 21px;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.search-clear:hover { color: var(--accent); background: var(--surface-hover); }
+
+.sidebar-nav li.sidebar-category > p {
+  margin: 24px 8px 7px;
+  padding: 0;
+}
+.sidebar-nav li.sidebar-category > p strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8ee8d3;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .12em;
+}
+.sidebar-nav li.sidebar-category > p strong:before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  content: '';
+}
+.sidebar-nav li.sidebar-category[data-category="reference"] > p strong { color: #9fb4ff; }
 
 .content { left: 288px; background: var(--surface); }
 .markdown-section {
@@ -133,6 +172,46 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .workspace-bar__edit { margin-left: auto; color: var(--muted); text-decoration: none; }
 .workspace-bar__edit:hover { color: var(--accent); }
 
+.top-edit-notes {
+  position: fixed;
+  top: 28px;
+  right: 96px;
+  z-index: 20;
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  background: var(--surface-raised);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+.top-edit-notes:hover { border-color: var(--accent); color: var(--accent); background: var(--surface-hover); }
+
+.note-category {
+  display: inline-flex;
+  margin: -8px 0 18px !important;
+  padding: 4px 9px;
+  border: 1px solid rgba(99, 217, 189, .34);
+  border-radius: 999px;
+  color: #8ee8d3 !important;
+  background: rgba(99, 217, 189, .1);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .07em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.note-category--reference { border-color: rgba(159, 180, 255, .35); color: #b5c4ff !important; background: rgba(159, 180, 255, .1); }
+.note-category--digital-forensics { border-color: rgba(191, 152, 255, .38); color: #ceb2ff !important; background: rgba(191, 152, 255, .1); }
+.note-category--threat-hunting { border-color: rgba(255, 188, 112, .4); color: #ffd09a !important; background: rgba(255, 188, 112, .1); }
+.note-category--detection-engineering { border-color: rgba(111, 205, 255, .4); color: #9edfff !important; background: rgba(111, 205, 255, .1); }
+.note-category--malware-analysis { border-color: rgba(255, 132, 156, .4); color: #ffacc0 !important; background: rgba(255, 132, 156, .1); }
+.note-category--cloud-security { border-color: rgba(104, 220, 190, .4); color: #91ead7 !important; background: rgba(104, 220, 190, .1); }
+.note-category--osint { border-color: rgba(234, 212, 111, .4); color: #f3e58e !important; background: rgba(234, 212, 111, .1); }
+
 .route-pending .content { cursor: progress; }
 .route-pending .sidebar-nav { pointer-events: none; opacity: .72; }
 .sidebar-toggle { border-color: var(--line); }
@@ -179,6 +258,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .markdown-section h2 { margin-top: 42px; }
   .markdown-section table { display: block; overflow-x: auto; white-space: nowrap; }
   .profile-logo { display: none; }
+  .top-edit-notes { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

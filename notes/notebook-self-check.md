@@ -1,5 +1,6 @@
 ---
 title: Notebook self-check
+category: reference
 file: /notes/files/notebook-check.txt
 ---
 A repeatable check for this public notebook. This note and its harmless text attachment were published through the Decap editor during the September 2026 audit.

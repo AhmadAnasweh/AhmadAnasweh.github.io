@@ -29,7 +29,51 @@ collections:
     slug: "{{slug}}"
     extension: md
     format: frontmatter
+    summary: "{{category}} | {{title}}"
+    sortable_fields: ["category", "title", "commit_date"]
+    view_groups:
+      - label: Category
+        field: category
+    view_filters:
+      - label: Investigations
+        field: category
+        pattern: incident-response
+      - label: Digital forensics
+        field: category
+        pattern: digital-forensics
+      - label: Threat hunting
+        field: category
+        pattern: threat-hunting
+      - label: Detection engineering
+        field: category
+        pattern: detection-engineering
+      - label: Malware analysis
+        field: category
+        pattern: malware-analysis
+      - label: Cloud security
+        field: category
+        pattern: cloud-security
+      - label: OSINT
+        field: category
+        pattern: osint
+      - label: Reference & workflow
+        field: category
+        pattern: reference
     fields:
+      - label: Category
+        name: category
+        widget: select
+        default: reference
+        hint: "Choose the main topic. The editor can group, filter, and sort notes by this field."
+        options:
+          - { label: "Incident response", value: "incident-response" }
+          - { label: "Digital forensics", value: "digital-forensics" }
+          - { label: "Threat hunting", value: "threat-hunting" }
+          - { label: "Detection engineering", value: "detection-engineering" }
+          - { label: "Malware analysis", value: "malware-analysis" }
+          - { label: "Cloud security", value: "cloud-security" }
+          - { label: "OSINT", value: "osint" }
+          - { label: "Reference & workflow", value: "reference" }
       - { label: Title, name: title, widget: string }
       - { label: Body, name: body, widget: markdown }
       - { label: File, name: file, widget: file, required: false, hint: "Optional attachment below the note. For images in the note body, use Add image or paste into Body." }

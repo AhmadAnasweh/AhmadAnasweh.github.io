@@ -46,12 +46,19 @@
     if (!section || section.querySelector('.workspace-bar')) return;
     var bar = document.createElement('div');
     bar.className = 'workspace-bar';
-    bar.innerHTML = '<span class="workspace-bar__badge">Field notebook</span><span class="workspace-bar__divider" aria-hidden="true"></span><span>Read, search, and capture what matters.</span><a class="workspace-bar__edit" href="/admin/" data-no-router>Write a note</a>';
+    bar.innerHTML = '<span class="workspace-bar__badge">Field notebook</span><span class="workspace-bar__divider" aria-hidden="true"></span><span>Read, search, and capture what matters.</span>';
     section.insertBefore(bar, section.firstChild);
   }
 
   function mountProfileLogo() {
     if (document.querySelector('.profile-logo')) return;
+    var editLink = document.createElement('a');
+    editLink.className = 'top-edit-notes';
+    editLink.href = '/admin/';
+    editLink.setAttribute('data-no-router', '');
+    editLink.textContent = 'Edit notes';
+    document.body.appendChild(editLink);
+
     var logo = document.createElement('button');
     logo.className = 'profile-logo';
     logo.type = 'button';
@@ -78,12 +85,57 @@
     });
   }
 
+  function improveSidebar() {
+    var categoryLabels = {
+      'Investigations': 'investigations',
+      'Reference & workflow': 'reference'
+    };
+    document.querySelectorAll('.sidebar-nav strong').forEach(function (label) {
+      var category = categoryLabels[label.textContent.trim()];
+      if (!category) return;
+      var item = label.closest('li');
+      if (item) {
+        item.classList.add('sidebar-category');
+        item.setAttribute('data-category', category);
+      }
+    });
+
+    var searchInput = document.querySelector('.search input');
+    if (!searchInput || searchInput.parentNode.querySelector('.search-clear')) return;
+    searchInput.placeholder = 'Search notes, commands, and cases';
+    searchInput.setAttribute('aria-label', 'Search all listed notes');
+    var clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'search-clear';
+    clear.setAttribute('aria-label', 'Clear search');
+    clear.textContent = '×';
+    clear.addEventListener('click', function () {
+      searchInput.value = '';
+      searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+      searchInput.focus();
+    });
+    searchInput.parentNode.appendChild(clear);
+  }
+
+  document.addEventListener('keydown', function (event) {
+    var active = document.activeElement;
+    var editable = active && (active.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName));
+    if (event.key === '/' && !editable) {
+      var searchInput = document.querySelector('.search input');
+      if (searchInput) {
+        event.preventDefault();
+        searchInput.focus();
+      }
+    }
+  });
+
   window.$docsify = window.$docsify || {};
   window.$docsify.plugins = (window.$docsify.plugins || []).concat(function (hook) {
     hook.doneEach(function () {
       window.setTimeout(function () {
         mountWorkspaceBar();
         mountProfileLogo();
+        improveSidebar();
         clearPending();
       }, 0);
     });

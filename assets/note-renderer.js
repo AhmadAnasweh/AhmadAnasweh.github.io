@@ -20,6 +20,20 @@
     }
     if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) metadata = {};
     var body = content.slice(match[0].length);
+    var categoryNames = {
+      'incident-response': 'Incident response',
+      'digital-forensics': 'Digital forensics',
+      'threat-hunting': 'Threat hunting',
+      'detection-engineering': 'Detection engineering',
+      'malware-analysis': 'Malware analysis',
+      'cloud-security': 'Cloud security',
+      'osint': 'OSINT',
+      'reference': 'Reference & workflow'
+    };
+    if (typeof metadata.category === 'string' && categoryNames[metadata.category]) {
+      body = '<p class="note-category note-category--' + metadata.category + '">' +
+        escapeHtml(categoryNames[metadata.category]) + '</p>\n\n' + body;
+    }
     // Tokenize the body so a "# heading" inside a code fence is not mistaken for H1.
     var hasHeading = originalLexer(body).some(function (token) {
       return token.type === 'heading' && token.depth === 1;
