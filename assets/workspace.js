@@ -1,45 +1,6 @@
-/* Keeps Docsify navigation responsive when several internal links are clicked quickly. */
+/* Small reader-workspace enhancements layered on top of Docsify. */
 (function () {
   'use strict';
-  var queuedRoute = null;
-  var routeTimer = null;
-  var queueDelay = 90;
-
-  function internalRoute(link) {
-    if (!link || link.hasAttribute('data-no-router') || link.target || link.hasAttribute('download')) return null;
-    var href = link.getAttribute('href') || '';
-    if (href.indexOf('#/') === 0) return href;
-    if (href.charAt(0) === '/' && href.indexOf('//') !== 0) return '#' + href;
-    return null;
-  }
-
-  function clearPending() {
-    if (!routeTimer) document.documentElement.classList.remove('route-pending');
-  }
-
-  function navigateToLatest() {
-    var route = queuedRoute;
-    queuedRoute = null;
-    routeTimer = null;
-    if (route && window.location.hash !== route) window.location.hash = route.slice(1);
-    clearPending();
-  }
-
-  document.addEventListener('click', function (event) {
-    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    var link = event.target.closest && event.target.closest('a');
-    var route = internalRoute(link);
-    if (!route || route === window.location.hash) return;
-
-    // Docsify renders asynchronously. Coalescing a burst gives the last click
-    // priority and avoids stale renders taking over the page.
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    queuedRoute = route;
-    document.documentElement.classList.add('route-pending');
-    if (routeTimer) window.clearTimeout(routeTimer);
-    routeTimer = window.setTimeout(navigateToLatest, queueDelay);
-  }, true);
 
   function mountWorkspaceBar() {
     var section = document.querySelector('.markdown-section');
@@ -136,7 +97,6 @@
         mountWorkspaceBar();
         mountProfileLogo();
         improveSidebar();
-        clearPending();
       }, 0);
     });
   });

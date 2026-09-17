@@ -212,8 +212,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .note-category--cloud-security { border-color: rgba(104, 220, 190, .4); color: #91ead7 !important; background: rgba(104, 220, 190, .1); }
 .note-category--osint { border-color: rgba(234, 212, 111, .4); color: #f3e58e !important; background: rgba(234, 212, 111, .1); }
 
-.route-pending .content { cursor: progress; }
-.route-pending .sidebar-nav { pointer-events: none; opacity: .72; }
 .sidebar-toggle { border-color: var(--line); }
 
 .profile-logo {
