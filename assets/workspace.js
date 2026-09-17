@@ -1,6 +1,106 @@
 /* Small reader-workspace enhancements layered on top of Docsify. */
 (function () {
   'use strict';
+  var publishedNotes = null;
+  var publishedNotesRequest = null;
+  var categoryLabels = {
+    'incident-response': 'Investigations',
+    'digital-forensics': 'Digital forensics',
+    'threat-hunting': 'Threat hunting',
+    'detection-engineering': 'Detection engineering',
+    'malware-analysis': 'Malware analysis',
+    'cloud-security': 'Cloud security',
+    'osint': 'OSINT',
+    'reference': 'Reference & workflow'
+  };
+  var categoryOrder = [
+    'incident-response', 'digital-forensics', 'threat-hunting',
+    'detection-engineering', 'malware-analysis', 'cloud-security', 'osint', 'reference'
+  ];
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (character) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character];
+    });
+  }
+
+  function routeForNote(path) {
+    return '#/' + path.replace(/\.md$/i, '').split('/').map(encodeURIComponent).join('/');
+  }
+
+  function fieldFromFrontMatter(content, field) {
+    var frontMatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+    if (!frontMatter) return '';
+    var match = frontMatter[1].match(new RegExp('^' + field + ':\\s*(.+?)\\s*$', 'm'));
+    return match ? match[1].replace(/^['"]|['"]$/g, '').trim() : '';
+  }
+
+  function renderPublishedNotes() {
+    var navigation = document.querySelector('.sidebar-nav');
+    if (!navigation || !publishedNotes) return;
+    var currentPath = decodeURIComponent(window.location.hash.split('?')[0]).replace(/^#\//, '');
+    var groups = {};
+    publishedNotes.forEach(function (note) {
+      var category = categoryLabels[note.category] ? note.category : 'reference';
+      (groups[category] = groups[category] || []).push(note);
+    });
+    Object.keys(groups).forEach(function (category) {
+      groups[category].sort(function (left, right) { return left.title.localeCompare(right.title); });
+    });
+
+    var html = '<ul><li><a href="#/">Home</a></li>' +
+      '<li><a href="/admin/" data-no-router data-nosearch>Edit notes</a></li>';
+    categoryOrder.forEach(function (category) {
+      var notes = groups[category];
+      if (!notes || !notes.length) return;
+      html += '<li class="sidebar-category" data-category="' + category + '"><p><strong>' +
+        escapeHtml(categoryLabels[category]) + '</strong></p><ul>';
+      notes.forEach(function (note) {
+        var active = note.path.replace(/\.md$/i, '') === currentPath ? ' class="active"' : '';
+        html += '<li><a' + active + ' href="' + routeForNote(note.path) + '">' + escapeHtml(note.title) + '</a></li>';
+      });
+      html += '</ul></li>';
+    });
+    navigation.innerHTML = html + '</ul>';
+    improveSidebar();
+  }
+
+  function loadPublishedNotes() {
+    if (publishedNotes) {
+      renderPublishedNotes();
+      return;
+    }
+    if (!publishedNotesRequest) {
+      publishedNotesRequest = fetch('https://api.github.com/repos/AhmadAnasweh/AhmadAnasweh.github.io/contents/notes', {
+        headers: { Accept: 'application/vnd.github+json' }
+      }).then(function (response) {
+        if (!response.ok) throw new Error('Could not load the note index.');
+        return response.json();
+      }).then(function (files) {
+        files = files.filter(function (file) { return file.type === 'file' && /\.md$/i.test(file.name); });
+        return Promise.all(files.map(function (file) {
+          return fetch(file.download_url).then(function (response) {
+            if (!response.ok) throw new Error('Could not load a note.');
+            return response.text();
+          }).then(function (content) {
+            return {
+              path: file.path,
+              title: fieldFromFrontMatter(content, 'title') || file.name.replace(/\.md$/i, ''),
+              category: fieldFromFrontMatter(content, 'category')
+            };
+          });
+        }));
+      }).then(function (notes) {
+        publishedNotes = notes;
+      }).catch(function (error) {
+        // Keep the built-in sidebar as a readable fallback if GitHub is unavailable.
+        console.warn('Published note index could not be loaded.', error);
+        publishedNotes = null;
+        publishedNotesRequest = null;
+      });
+    }
+    publishedNotesRequest.then(renderPublishedNotes);
+  }
 
   function mountWorkspaceBar() {
     var section = document.querySelector('.markdown-section');
@@ -57,12 +157,18 @@
   }
 
   function improveSidebar() {
-    var categoryLabels = {
+    var sidebarCategoryLabels = {
       'Investigations': 'investigations',
+      'Digital forensics': 'digital-forensics',
+      'Threat hunting': 'threat-hunting',
+      'Detection engineering': 'detection-engineering',
+      'Malware analysis': 'malware-analysis',
+      'Cloud security': 'cloud-security',
+      'OSINT': 'osint',
       'Reference & workflow': 'reference'
     };
     document.querySelectorAll('.sidebar-nav strong').forEach(function (label) {
-      var category = categoryLabels[label.textContent.trim()];
+      var category = sidebarCategoryLabels[label.textContent.trim()];
       if (!category) return;
       var item = label.closest('li');
       var toggle = label.closest('p');
@@ -136,6 +242,7 @@
         mountWorkspaceBar();
         mountProfileLogo();
         improveSidebar();
+        loadPublishedNotes();
       }, 0);
     });
   });
