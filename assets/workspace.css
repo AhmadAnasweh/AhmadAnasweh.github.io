@@ -91,6 +91,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   margin: 24px 8px 7px;
   padding: 0;
 }
+.sidebar-nav li.sidebar-category > p.sidebar-category-toggle {
+  cursor: pointer;
+}
 .sidebar-nav li.sidebar-category > p strong {
   display: flex;
   align-items: center;
@@ -107,6 +110,16 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   background: currentColor;
   content: '';
 }
+.sidebar-nav li.sidebar-category > p strong:after {
+  margin-left: auto;
+  color: var(--muted);
+  content: '+';
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1;
+}
+.sidebar-nav li.sidebar-category:not(.sidebar-category--collapsed) > p strong:after { content: '−'; }
+.sidebar-nav li.sidebar-category--collapsed > ul { display: none; }
 .sidebar-nav li.sidebar-category[data-category="reference"] > p strong { color: #9fb4ff; }
 
 .content { left: 288px; background: var(--surface); }

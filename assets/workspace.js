@@ -55,9 +55,38 @@
       var category = categoryLabels[label.textContent.trim()];
       if (!category) return;
       var item = label.closest('li');
-      if (item) {
-        item.classList.add('sidebar-category');
-        item.setAttribute('data-category', category);
+      var toggle = label.closest('p');
+      var notes = item && item.querySelector(':scope > ul');
+      if (!item || !toggle || !notes) return;
+
+      item.classList.add('sidebar-category');
+      item.setAttribute('data-category', category);
+      notes.id = 'category-notes-' + category;
+      toggle.classList.add('sidebar-category-toggle');
+      toggle.setAttribute('role', 'button');
+      toggle.setAttribute('tabindex', '0');
+      toggle.setAttribute('aria-controls', notes.id);
+
+      function setExpanded(expanded) {
+        item.classList.toggle('sidebar-category--collapsed', !expanded);
+        toggle.setAttribute('aria-expanded', String(expanded));
+      }
+
+      // Keep the selected note visible after it is opened. Categories otherwise
+      // start closed, so the sidebar remains a short list of folders.
+      if (!item.dataset.categoryReady) {
+        item.dataset.categoryReady = 'true';
+        setExpanded(Boolean(item.querySelector('a.active')));
+        function toggleCategory(event) {
+          event.preventDefault();
+          setExpanded(item.classList.contains('sidebar-category--collapsed'));
+        }
+        toggle.addEventListener('click', toggleCategory);
+        toggle.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') toggleCategory(event);
+        });
+      } else if (item.querySelector('a.active')) {
+        setExpanded(true);
       }
     });
 
