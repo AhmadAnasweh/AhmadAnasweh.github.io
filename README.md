@@ -4,7 +4,6 @@ SOC investigations, digital forensics, and incident response — a personal fiel
 
 ## Explore
 
-- [Start here](notes/README.md): how this notebook is organized.
 - [Investigation walkthrough](notes/investigation-walkthrough.md): a reusable investigation outline.
 
 ## Field notes
