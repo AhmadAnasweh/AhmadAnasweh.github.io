@@ -52,12 +52,30 @@
 
   function mountProfileLogo() {
     if (document.querySelector('.profile-logo')) return;
-    var logo = document.createElement('a');
+    var logo = document.createElement('button');
     logo.className = 'profile-logo';
-    logo.href = '#/';
-    logo.setAttribute('aria-label', "Ahmad's Notes home");
+    logo.type = 'button';
+    logo.setAttribute('aria-label', 'Expand personal logo');
+    logo.setAttribute('aria-expanded', 'false');
     logo.innerHTML = '<img src="/assets/me.png" alt="Ahmad\'s personal logo">';
     document.body.appendChild(logo);
+
+    function closeLogo() {
+      logo.classList.remove('profile-logo--expanded');
+      logo.setAttribute('aria-expanded', 'false');
+    }
+
+    logo.addEventListener('click', function (event) {
+      event.stopPropagation();
+      var expanded = logo.classList.toggle('profile-logo--expanded');
+      logo.setAttribute('aria-expanded', String(expanded));
+    });
+    document.addEventListener('click', function (event) {
+      if (!logo.contains(event.target)) closeLogo();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeLogo();
+    });
   }
 
   window.$docsify = window.$docsify || {};
