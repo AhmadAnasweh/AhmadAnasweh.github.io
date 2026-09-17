@@ -50,11 +50,22 @@
     section.insertBefore(bar, section.firstChild);
   }
 
+  function mountProfileLogo() {
+    if (document.querySelector('.profile-logo')) return;
+    var logo = document.createElement('a');
+    logo.className = 'profile-logo';
+    logo.href = '#/';
+    logo.setAttribute('aria-label', "Ahmad's Notes home");
+    logo.innerHTML = '<img src="/assets/me.png" alt="Ahmad\'s personal logo">';
+    document.body.appendChild(logo);
+  }
+
   window.$docsify = window.$docsify || {};
   window.$docsify.plugins = (window.$docsify.plugins || []).concat(function (hook) {
     hook.doneEach(function () {
       window.setTimeout(function () {
         mountWorkspaceBar();
+        mountProfileLogo();
         clearPending();
       }, 0);
     });
