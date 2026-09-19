@@ -18,6 +18,9 @@ backend:
 
 site_url: https://ahmad.anasweh.com
 display_url: https://ahmad.anasweh.com
+
+# Save creates an unpublished GitHub draft. Only Publish updates the live site.
+publish_mode: editorial_workflow
 media_folder: "notes/files"
 public_folder: "/notes/files"
 
@@ -120,5 +123,5 @@ collections:
         picker_utc: true
         hint: "Filled in when a note is created. Keep this original date when editing."
       - { label: Title, name: title, widget: string }
-      - { label: Body, name: body, widget: markdown }
+      - { label: Body, name: body, widget: markdown, hint: "Write Markdown or paste a full article here. Images and text after them are kept in order." }
       - { label: File, name: file, widget: file, required: false, hint: "Optional attachment below the note. For images in the note body, use Add image or paste into Body." }

@@ -46,7 +46,18 @@ No further config.yml changes are needed.
 
 Visit https://ahmad.anasweh.com/admin/ and click Login with GitHub.
 Authorize your OAuth App while signed in as AhmadAnasweh (or an account with push access).
-Create a note, optionally attach a file, and publish. Wait for Pages deployment.
+Create or edit a note. Paste a full article into Body to convert its HTML to Markdown;
+the text after embedded images stays in place. Paste or add an image to insert it at
+the cursor. Use the dark preview pane to check the result.
+
+The editor saves unsaved changes as an unpublished draft every five minutes and
+shortly after adding an image. **Save** also saves a draft immediately. Drafts live
+in GitHub branches and pull requests and are visible in this public repository,
+but do not appear on the website until **Publish** is clicked. You can find them
+under **Workflow** in the editor. Keep the browser open until the editor says
+**Changes saved** before leaving the page.
+
+When the note is ready, click **Publish** and wait for Pages deployment.
 The provider is configured and redirects to GitHub. CMS reading, uploading, and
 publishing were verified with an existing authenticated GitHub session during the
 audit. The interactive OAuth popup must also finish in your browser; the audit
