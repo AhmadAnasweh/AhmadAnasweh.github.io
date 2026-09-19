@@ -138,6 +138,28 @@ by saved it ,
 
 ![Screenshot](/notes/files/image-1789849199698-1835fe55.png)
 
-
-
 **Ans : 03/21/2019 19:13:09**
+
+**Q15: What version of Chrome is installed on the machine?**
+
+here we use Software hive 
+
+ infoormations about last google chrome version is stored in "**SOFTWARE\WOW6432Node\Microsoft\Windows \CurrentVersion\Uninstall\Google Chrome"**.
+
+**Q16: What is the HostUrl of Skype?**
+
+location which store download URL is “**History**”. So, we extract History from the FTK imager 
+
+Location of History is: "\[root]\Users\Karen\AppData\Local\Google\Chrome\User Data\Default\History"
+
+Then open it using SQLite3 or convert.guru
+
+**Q17: What is the domain name of the website Karen browsed on Alpaca care that the file AlpacaCare.docx is based on?**
+
+ we can export the AlpacaCare.docx file  then analyze it
+
+![Screenshot](/notes/files/image-1789849537965-53543800.png)
+
+The hyperlink used in website is  "palominoalapacafarm.com".
+
+**Ans: palominoalpacafarm.com**
