@@ -29,3 +29,17 @@ Check the path Microsoft\Windows NT\CurrentVersion
 ![Screenshot](/notes/files/image-1789830203404-fe9fb2bd.png)
 
 **Q3: What is the hostname of the computer?**
+
+
+
+For the **hostname/computer name**, use the `SYSTEM` registry hive:
+
+again , export the file and import it again and go for the path inside it 
+
+ControlSet00X\Control\ComputerName\ComputerName
+
+
+
+**then  Check "ControlSet001\Control\ComputerName\ComputerName"**
+
+![Screenshot](/notes/files/image-1789831097456-5fe67a39.png)
