@@ -75,7 +75,8 @@ html, body, #nc-root {
   color: var(--editor-accent) !important;
 }
 
-#nc-root [class*="PageLogoIcon"] svg path:nth-child(n+2) {
+#nc-root [class*="PageLogoIcon"] svg path:nth-child(n+2),
+#nc-root [class*="DecapLogoIcon"] svg path:nth-child(n+2) {
   fill: var(--editor-text) !important;
 }
 
