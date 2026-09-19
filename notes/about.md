@@ -4,6 +4,7 @@ category: reference
 status: in-use
 tags: [windows, microsoft-365, splunk, sigma]
 updated: 2026-09-17T13:41:51Z
+created: 2026-09-17T16:55:04+03:00
 ---
 
 This is Ahmad Anasweh's public SOC and DFIR field notebook: a practical place for investigation workflows, detection ideas, command references, lab findings, and lessons learned.

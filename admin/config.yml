@@ -29,8 +29,8 @@ collections:
     slug: "{{slug}}"
     extension: md
     format: frontmatter
-    summary: "{{status}} | {{category}} | {{title}}"
-    sortable_fields: ["status", "category", "updated", "title", "commit_date"]
+    summary: "{{title}} | {{category}} | {{status}} | Created {{created | date('YYYY-MM-DD HH:mm')}} | Edited {{commit_date | date('YYYY-MM-DD HH:mm')}}"
+    sortable_fields: ["commit_date", "created", "status", "category", "title"]
     view_groups:
       - label: Category
         field: category
@@ -113,6 +113,12 @@ collections:
         default: "{{now}}"
         picker_utc: true
         hint: "For an existing note, set this to today whenever you make a meaningful update."
+      - label: Created
+        name: created
+        widget: datetime
+        default: "{{now}}"
+        picker_utc: true
+        hint: "Filled in when a note is created. Keep this original date when editing."
       - { label: Title, name: title, widget: string }
       - { label: Body, name: body, widget: markdown }
       - { label: File, name: file, widget: file, required: false, hint: "Optional attachment below the note. For images in the note body, use Add image or paste into Body." }
