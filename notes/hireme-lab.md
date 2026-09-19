@@ -53,3 +53,13 @@ or if you want to be more professional
 3. check the path Microsoft\Windows\CurrentVersion\App Paths  
 
 ![Screenshot](/notes/files/image-1789831787041-420bdb6a.png)
+
+
+
+
+
+
+
+![Screenshot](/notes/files/image-1789839559036-057e0182.png)
+
+![Screenshot](/notes/files/image-1789839565670-3493aa9f.png)
