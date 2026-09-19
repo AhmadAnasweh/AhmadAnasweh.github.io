@@ -77,3 +77,39 @@ Look for explicit mentions of payment or offers within the email exchanges. The 
 ![Screenshot](/notes/files/image-1789843232757-d2e85b9e.png)
 
  **Q8: What country is the admin user meeting the hacker group in?**
+
+Egypt , just threw it at ChatGPT, you can find post on linked in showing the exact same thing btw
+
+![Screenshot](/notes/files/image-1789844559283-7eabb2a8.png)
+
+![Screenshot](/notes/files/image-1789844595210-0045011b.png)
+
+**Q9: What is the machine's timezone? (Use the three-letter abbreviation)**
+
+* The timezone data is stored within the SYSTEM registry hive.
+* Explore 
+
+  `HKLM\SYSTEM\ControlSet001\Control\TimeZoneInformation`
+
+   in the SYSTEM hive to find the timezone settings.
+* The key 
+
+  `TimeZoneKeyName`
+
+   within the 
+
+  `TimeZoneInformation`
+
+   will give you the timezone abbreviation.
+
+![Screenshot](/notes/files/image-1789845067104-2bb1f845.png)
+
+Q10: When was AlpacaCare.docx last accessed?
+
+we can go and check the ftk imager and then see the accessing time in the properties windows on the top left by default , which is 2019-03-17 21:52
+
+![Screenshot](/notes/files/image-1789847312082-5ab5d3f1.png)
+
+
+
+Q11: There was a second partition on the drive. What is the letter assigned to it?
