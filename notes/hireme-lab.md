@@ -54,11 +54,17 @@ or if you want to be more professional
 
 ![Screenshot](/notes/files/image-1789831787041-420bdb6a.png)
 
+Q5: **What is the zip code of the administrator's post?**
+
+![Screenshot](/notes/files/image-1789840384804-af574fff.png)
+
+**Q6: What are the initials of the person who contacted the admin user from TAAUSAI?**
+
+**All the data regarding the emails are stored in** An **OST file** (Offline Storage Table) , its a local data file created by **Microsoft Outlook** to store a synchronized copy of mailbox data for **Exchange**, **Office 365**, or **IMAP** accounts.  This format enables **Cached Exchange Mode**, allowing users to access emails, contacts, calendars, and tasks **offline** without an internet connection.
 
 
 
-
-
+ We can find the .ost file in Users\<User>\AppData\Local\Microsoft\Outlook
 
 ![Screenshot](/notes/files/image-1789839559036-057e0182.png)
 
