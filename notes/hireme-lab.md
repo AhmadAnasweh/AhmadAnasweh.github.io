@@ -62,13 +62,18 @@ Q5: **What is the zip code of the administrator's post?**
 
 **All the data regarding the emails are stored in** An **OST file** (Offline Storage Table) , its a local data file created by **Microsoft Outlook** to store a synchronized copy of mailbox data for **Exchange**, **Office 365**, or **IMAP** accounts.  This format enables **Cached Exchange Mode**, allowing users to access emails, contacts, calendars, and tasks **offline** without an internet connection.
 
-
-
- We can find the .ost file in Users\<User>\AppData\Local\Microsoft\Outlook
+ We can find the .ost file in Users<User>\AppData\Local\Microsoft\Outlook
 
 ![Screenshot](/notes/files/image-1789839559036-057e0182.png)
 
-in the following image we can see the .ost file data can be read and viewed using the tool Kernel OST Viewer
-
+In the following image we can see the .ost file data can be read and viewed using the tool Kernel OST Viewer
 
 ![Screenshot](/notes/files/image-1789839565670-3493aa9f.png)
+
+**Q7: How much money was TAAUSAI willing to pay upfront?**
+
+Look for explicit mentions of payment or offers within the email exchanges. The upfront amount should be clearly stated.
+
+![Screenshot](/notes/files/image-1789843232757-d2e85b9e.png)
+
+ **Q8: What country is the admin user meeting the hacker group in?**
