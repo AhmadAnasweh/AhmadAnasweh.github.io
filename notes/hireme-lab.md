@@ -30,16 +30,26 @@ Check the path Microsoft\Windows NT\CurrentVersion
 
 **Q3: What is the hostname of the computer?**
 
-
-
 For the **hostname/computer name**, use the `SYSTEM` registry hive:
 
 again , export the file and import it again and go for the path inside it 
 
 ControlSet00X\Control\ComputerName\ComputerName
 
-
-
 **then  Check "ControlSet001\Control\ComputerName\ComputerName"**
 
 ![Screenshot](/notes/files/image-1789831097456-5fe67a39.png)
+
+**4. A messaging application was used to communicate with a fellow Alpaca enthusiest. What is the name of the software?**
+
+**Skype , mount the image or just keep looking through FTK imager , you will find Skype in the files**
+
+![Screenshot](/notes/files/image-1789831539136-8711a981.png)
+
+or if you want to be more professional
+
+1. Go for /Users/windows/system32/config/
+2. Analyze SOFTWARE file through exporting it and reading it through whatever tool you want
+3. check the path Microsoft\Windows\CurrentVersion\App Paths  
+
+![Screenshot](/notes/files/image-1789831787041-420bdb6a.png)
