@@ -104,12 +104,22 @@ Egypt , just threw it at ChatGPT, you can find post on linked in showing the exa
 
 ![Screenshot](/notes/files/image-1789845067104-2bb1f845.png)
 
-Q10: When was AlpacaCare.docx last accessed?
+**Q10: When was AlpacaCare.docx last accessed?**
 
 we can go and check the ftk imager and then see the accessing time in the properties windows on the top left by default , which is 2019-03-17 21:52
 
 ![Screenshot](/notes/files/image-1789847312082-5ab5d3f1.png)
 
+**Q11: There was a second partition on the drive. What is the letter assigned to it?**
 
+we find out that the second partition of the drive is store in the “**SYSTEM\MountedDevices”** registry.
 
-Q11: There was a second partition on the drive. What is the letter assigned to it?
+![Screenshot](/notes/files/image-1789848687863-43400767.png)
+
+**Q12: What is the answer to the question Company's manager asked Karen?**
+
+Ans : TheCardCriesNoMore
+
+**Q13: What is the job position offered to Karen? (3 words, 2 spaces in between)**
+
+Ans : cyber security analyst
