@@ -20,10 +20,12 @@ in the following image we can see its karen, using FTK imager
 
 Go for /Users/windows/system32/config/
 
-you will find SOFTWARE hive file , export it  read it 
+you will find SOFTWARE hive file , export it  , Import it into registry editor or explorer
 
 ![Screenshot](/notes/files/image-1789829101154-bdd23690.png)
 
-Checking 
+Check the path Microsoft\Windows NT\CurrentVersion
 
 ![Screenshot](/notes/files/image-1789830203404-fe9fb2bd.png)
+
+**Q3: What is the hostname of the computer?**
