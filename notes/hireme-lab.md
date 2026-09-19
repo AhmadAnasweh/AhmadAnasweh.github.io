@@ -68,4 +68,7 @@ Q5: **What is the zip code of the administrator's post?**
 
 ![Screenshot](/notes/files/image-1789839559036-057e0182.png)
 
+in the following image we can see the .ost file data can be read and viewed using the tool Kernel OST Viewer
+
+
 ![Screenshot](/notes/files/image-1789839565670-3493aa9f.png)
