@@ -4,6 +4,7 @@ status: in-use
 tags:
   - windows
 updated: 2026-09-19T12:46:00.000Z
+created: 2026-09-19T17:42:35+03:00
 title: HireMe Lab
 ---
 ## **Scenario**

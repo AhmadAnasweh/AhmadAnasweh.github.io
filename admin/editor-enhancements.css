@@ -1,15 +1,238 @@
-/* A clear, forgiving image area layered onto Decap's Markdown editor. */
-.note-image-helper {
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  color: #193c39;
-  background: #edf8f5;
-  border: 1px solid #b9e7dc;
+/* Match the public notebook's dark reading palette inside Decap. */
+:root {
+  color-scheme: dark;
+  --editor-bg: #0f1720;
+  --editor-page: #121c26;
+  --editor-surface: #16212d;
+  --editor-hover: #1d2b39;
+  --editor-line: #2b3b4b;
+  --editor-text: #dce6ef;
+  --editor-muted: #9aabba;
+  --editor-accent: #63d9bd;
+}
+
+html, body, #nc-root {
+  background: var(--editor-bg) !important;
+  color: var(--editor-text) !important;
+}
+
+#nc-root [class*="-EditorContainer"],
+#nc-root [class*="-CollectionPageContainer"],
+#nc-root [class*="-CollectionsPageContainer"],
+#nc-root [class*="-WorkflowContainer"] {
+  background: var(--editor-bg) !important;
+}
+
+#nc-root [class*="-AppHeader"],
+#nc-root [class*="-ToolbarContainer"],
+#nc-root [class*="-SidebarContainer"],
+#nc-root [class*="-CollectionTopContainer"],
+#nc-root [class*="-StyledSplitPane"],
+#nc-root [class*="-ControlPaneContainer"],
+#nc-root [class*="-PreviewPaneContainer"],
+#nc-root [class*="-DateTimeControl"],
+#nc-root [class*="-container"]:has(input[role="combobox"]),
+#nc-root [class*="-control"]:has(input[role="combobox"]),
+#nc-root [class*="-Card"] {
+  background: var(--editor-surface) !important;
+  border-color: var(--editor-line) !important;
+  box-shadow: none !important;
+}
+
+#nc-root .Pane,
+#nc-root [class*="-PreviewPane"] {
+  background: var(--editor-page) !important;
+}
+
+#nc-root :is(div, span, p, h1, h2, h3, h4, label, li, small, a) {
+  color: var(--editor-text) !important;
+}
+
+#nc-root [class*="-FieldLabel"] {
+  background: var(--editor-line) !important;
+  color: var(--editor-muted) !important;
+}
+
+#nc-root [class*="-Hint"],
+#nc-root [class*="-Description"],
+#nc-root [class*="-Placeholder"],
+#nc-root [class*="-Help"] {
+  color: var(--editor-muted) !important;
+}
+
+#nc-root [class*="sidebarNavLinkActive"] {
+  background: #244038 !important;
+  color: var(--editor-accent) !important;
+}
+
+#nc-root [class*="sidebarNavLinkActive"] * {
+  color: var(--editor-accent) !important;
+}
+
+#nc-root [class*="PageLogoIcon"] svg path:nth-child(n+2) {
+  fill: var(--editor-text) !important;
+}
+
+#nc-root :is(input, textarea, select, [role="textbox"], [role="combobox"]),
+#nc-root [class*="-SearchInput"] {
+  background: var(--editor-bg) !important;
+  border-color: var(--editor-line) !important;
+  color: var(--editor-text) !important;
+  caret-color: var(--editor-accent) !important;
+}
+
+#nc-root :is(input, textarea, select):focus-visible,
+#nc-root :is(button, a):focus-visible,
+#nc-root [role="combobox"]:focus-visible {
+  outline: 2px solid var(--editor-accent) !important;
+  outline-offset: 2px;
+}
+
+#nc-root button:not([class*="-SaveButton"]):not([class*="-PublishButton"]),
+#nc-root [class*="-FileWidgetButton"] {
+  background: var(--editor-hover) !important;
+  border-color: var(--editor-line) !important;
+  color: var(--editor-text) !important;
+}
+
+#nc-root [class*="-SaveButton"],
+#nc-root [class*="-PublishButton"],
+#nc-root [class*="-CollectionTopNewButton"] {
+  background: var(--editor-accent) !important;
+  border-color: var(--editor-accent) !important;
+  color: #08231f !important;
+}
+
+#nc-root [class*="-SaveButton"] *,
+#nc-root [class*="-PublishButton"] *,
+#nc-root [class*="-CollectionTopNewButton"] * {
+  color: #08231f !important;
+}
+
+#nc-root [class*="Unsaved"],
+#nc-root [class*="Error"] {
+  color: #ffacbc !important;
+}
+
+#nc-root [class*="-PreviewPane"] :is(h1, h2, h3, h4) {
+  color: #f4f8fc !important;
+}
+
+#nc-root [class*="-PreviewPane"] :is(p, li) {
+  color: #c9d6e1 !important;
+}
+
+#nc-root [class*="-PreviewPane"] img {
+  max-width: 100%;
+  border: 1px solid var(--editor-line);
   border-radius: 8px;
 }
-.note-image-helper--dragging { background: #dcf6ef; border-color: #29a98f; box-shadow: inset 0 0 0 1px #29a98f; }
-.note-image-helper__button { padding: 7px 12px; margin-right: 10px; color: #fff; background: #187d6c; border: 0; border-radius: 5px; cursor: pointer; font: inherit; }
-.note-image-helper__button:hover:not(:disabled) { background: #126b5c; }
-.note-image-helper__button:disabled { cursor: wait; opacity: .65; }
-.note-image-helper__hint { font-size: 14px; }
-.note-image-helper__status { min-height: 1.4em; margin: 7px 0 0; font-size: 13px; }
+
+#nc-root [class*="-PreviewPane"] :is(pre, code) {
+  color: #9af0dc !important;
+  background: #172432 !important;
+}
+
+body [role="listbox"],
+body [role="menu"],
+body [role="dialog"] {
+  background: var(--editor-surface) !important;
+  color: var(--editor-text) !important;
+  border-color: var(--editor-line) !important;
+}
+
+.note-editor {
+  overflow: hidden;
+  border: 1px solid var(--editor-line);
+  border-radius: 9px;
+  background: var(--editor-surface);
+}
+
+.note-editor--dragging {
+  border-color: var(--editor-accent);
+  box-shadow: inset 0 0 0 1px var(--editor-accent);
+}
+
+.note-editor__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  border-bottom: 1px solid var(--editor-line);
+  background: var(--editor-surface);
+}
+
+#nc-root .note-editor__tool {
+  min-height: 32px;
+  padding: 5px 9px;
+  border: 1px solid var(--editor-line);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+#nc-root .note-editor__tool:hover:not(:disabled) {
+  background: #2a3e4c !important;
+  border-color: var(--editor-accent) !important;
+}
+
+#nc-root .note-editor__tool--accent {
+  background: #244e43 !important;
+  color: #9af0dc !important;
+}
+
+.note-editor__toolbar-spacer { flex: 1; }
+
+#nc-root .note-editor__body {
+  display: block;
+  width: 100%;
+  height: min(65vh, 720px);
+  min-height: 360px;
+  padding: 18px 20px;
+  border: 0 !important;
+  border-radius: 0;
+  outline: 0 !important;
+  resize: vertical;
+  overflow: auto;
+  background: var(--editor-bg) !important;
+  color: var(--editor-text) !important;
+  font: 14px/1.7 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  tab-size: 2;
+}
+
+#nc-root .note-editor__body:focus {
+  box-shadow: inset 0 0 0 2px rgba(99, 217, 189, .45);
+}
+
+.note-editor__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 18px;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-top: 1px solid var(--editor-line);
+  background: var(--editor-surface);
+  color: var(--editor-muted);
+  font-size: 12px;
+}
+
+#nc-root .note-editor__footer span { color: var(--editor-muted) !important; }
+#nc-root .note-editor__autosave { color: var(--editor-accent) !important; }
+
+.note-file-size {
+  display: inline-block;
+  margin-left: .65em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--editor-accent);
+  background: #244038;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  #nc-root .note-editor__body { height: 58vh; min-height: 300px; padding: 14px; }
+  .note-editor__toolbar-spacer { flex-basis: 100%; }
+}
