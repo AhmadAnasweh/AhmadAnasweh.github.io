@@ -123,3 +123,21 @@ Ans : TheCardCriesNoMore
 **Q13: What is the job position offered to Karen? (3 words, 2 spaces in between)**
 
 Ans : cyber security analyst
+
+**Q14: When was the admin user password last changed?**
+
+That's stored in the SAM registry
+
+ so we have to analyze the “**SAM**” registry. that
+
+by saved it ,
+
+![Screenshot](/notes/files/image-1789849184085-3bdbb1cc.png)
+
+![Screenshot](/notes/files/image-1789849191657-bf3e063b.png)
+
+![Screenshot](/notes/files/image-1789849199698-1835fe55.png)
+
+
+
+**Ans : 03/21/2019 19:13:09**
