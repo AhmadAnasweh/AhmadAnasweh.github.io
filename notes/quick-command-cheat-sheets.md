@@ -4,6 +4,7 @@ category: cheat-sheets
 status: in-use
 tags: [windows, linux, splunk]
 updated: 2026-09-17T13:41:51Z
+created: 2026-09-17T16:55:04+03:00
 ---
 
 Keep short, frequently used, tested command references here. Add a separate note for each platform or workflow when the content becomes large enough to need context, cautions, and examples.

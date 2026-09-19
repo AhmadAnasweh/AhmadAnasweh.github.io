@@ -4,6 +4,7 @@ category: incident-response
 status: tested
 tags: [windows, splunk, edr]
 updated: 2026-09-17T13:41:51Z
+created: 2026-09-17T15:46:50+03:00
 ---
 This is a sanitized example you can copy when starting a new investigation note.
 
