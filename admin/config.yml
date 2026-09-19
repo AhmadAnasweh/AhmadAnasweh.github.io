@@ -95,21 +95,9 @@ collections:
           - { label: "Archived", value: "archived" }
       - label: Tags
         name: tags
-        widget: select
-        multiple: true
+        widget: list
         required: false
-        hint: "Use tags to make related platforms, tools, and investigation types easier to find."
-        options:
-          - { label: "Windows", value: "windows" }
-          - { label: "Microsoft 365", value: "microsoft-365" }
-          - { label: "Linux", value: "linux" }
-          - { label: "Splunk", value: "splunk" }
-          - { label: "Sigma", value: "sigma" }
-          - { label: "Malware", value: "malware" }
-          - { label: "Phishing", value: "phishing" }
-          - { label: "Azure", value: "azure" }
-          - { label: "Network", value: "network" }
-          - { label: "EDR", value: "edr" }
+        hint: "Add any tags you like, separated by commas (for example: windows, splunk, forensics)."
       - label: Last updated
         name: updated
         widget: datetime
@@ -122,6 +110,6 @@ collections:
         default: "{{now}}"
         picker_utc: true
         hint: "Filled in when a note is created. Keep this original date when editing."
-      - { label: Title, name: title, widget: string }
+      - { label: Title, name: title, widget: emoji_title, hint: "Use the emoji picker or type any emoji directly into the title." }
       - { label: Body, name: body, widget: markdown, hint: "Write Markdown or paste a full article here. Images and text after them are kept in order." }
       - { label: File, name: file, widget: file, required: false, hint: "Optional attachment below the note. For images in the note body, use Add image or paste into Body." }
