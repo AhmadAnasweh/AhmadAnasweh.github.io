@@ -53,6 +53,12 @@ html, body, #nc-root {
   color: var(--editor-muted) !important;
 }
 
+#nc-root [class*="-FieldLabel"]::before,
+#nc-root [class*="-FieldLabel"]::after {
+  background: var(--editor-line) !important;
+  border-color: var(--editor-line) !important;
+}
+
 #nc-root [class*="-Hint"],
 #nc-root [class*="-Description"],
 #nc-root [class*="-Placeholder"],
@@ -71,6 +77,15 @@ html, body, #nc-root {
 
 #nc-root [class*="PageLogoIcon"] svg path:nth-child(n+2) {
   fill: var(--editor-text) !important;
+}
+
+#nc-root [class*="AvatarPlaceholderIcon"] {
+  background: var(--editor-hover) !important;
+  border-radius: 50%;
+}
+
+#nc-root [class*="AvatarPlaceholderIcon"] svg path {
+  fill: var(--editor-accent) !important;
 }
 
 #nc-root :is(input, textarea, select, [role="textbox"], [role="combobox"]),
@@ -100,6 +115,14 @@ html, body, #nc-root {
 #nc-root [class*="-CollectionTopNewButton"] {
   background: var(--editor-accent) !important;
   border-color: var(--editor-accent) !important;
+  color: #08231f !important;
+}
+
+#nc-root [class*="-SaveButton"]:hover:not(:disabled),
+#nc-root [class*="-PublishButton"]:hover:not(:disabled),
+#nc-root [class*="-CollectionTopNewButton"]:hover:not(:disabled) {
+  background: #8ce8d2 !important;
+  border-color: #8ce8d2 !important;
   color: #08231f !important;
 }
 
@@ -139,6 +162,207 @@ body [role="dialog"] {
   background: var(--editor-surface) !important;
   color: var(--editor-text) !important;
   border-color: var(--editor-line) !important;
+}
+
+body [role="dialog"] :is(input, textarea, select),
+body [role="dialog"] [class*="-SearchInput"] {
+  background: var(--editor-bg) !important;
+  color: var(--editor-text) !important;
+  border-color: var(--editor-line) !important;
+}
+
+body [role="dialog"] :is(button, label.nc-fileUploadButton) {
+  background: var(--editor-hover) !important;
+  color: var(--editor-text) !important;
+  border-color: var(--editor-line) !important;
+  box-shadow: none !important;
+}
+
+body [role="dialog"] :is(button, label.nc-fileUploadButton):hover:not(:disabled) {
+  background: #2a3e4c !important;
+  color: var(--editor-accent) !important;
+  border-color: var(--editor-accent) !important;
+}
+
+body [role="dialog"] label.nc-fileUploadButton {
+  background: var(--editor-accent) !important;
+  color: #08231f !important;
+}
+
+body [role="dialog"] :is(div, span, p, h1, h2, h3, label) {
+  color: var(--editor-text) !important;
+}
+
+body [role="dialog"] label.nc-fileUploadButton span {
+  color: #08231f !important;
+}
+
+body [role="dialog"] label.nc-fileUploadButton:hover span {
+  color: var(--editor-accent) !important;
+}
+
+/* Decap renders these cards and popovers outside the named page containers. */
+#nc-root [class*="-ListCard"],
+#nc-root [class*="-WorkflowTop"],
+#nc-root [class*="-WorkflowCardContainer"],
+#nc-root [class*="DropdownList"],
+#nc-root [role="menuitem"],
+body [class$="-menu"],
+body [class$="-option"],
+#nc-root div:has(> span > button[class*="FileWidgetButton"]) {
+  background: var(--editor-surface) !important;
+  color: var(--editor-text) !important;
+  border-color: var(--editor-line) !important;
+  box-shadow: none !important;
+}
+
+#nc-root [class*="-ListCard"],
+#nc-root [class*="-WorkflowCardContainer"] {
+  border: 1px solid var(--editor-line) !important;
+  border-radius: 8px;
+}
+
+#nc-root [class*="-ListCard"]:hover,
+#nc-root [class*="-WorkflowCardContainer"]:hover,
+#nc-root [role="menuitem"]:hover,
+#nc-root [role="menuitem"]:focus-visible,
+body [class$="-option"]:hover,
+body [class$="-option"][aria-selected="true"] {
+  background: var(--editor-hover) !important;
+  color: var(--editor-accent) !important;
+}
+
+#nc-root [class*="-ListCard"]:hover *,
+#nc-root [class*="-WorkflowCardContainer"]:hover *,
+#nc-root [role="menuitem"]:hover * {
+  color: var(--editor-accent) !important;
+}
+
+#nc-root [class*="-ColumnHeader"] {
+  background: #244038 !important;
+  color: var(--editor-accent) !important;
+  border: 1px solid #365d51 !important;
+}
+
+#nc-root [class*="-ColumnHeader"] *,
+#nc-root [class*="-WorkflowTop"] *,
+#nc-root [class*="-WorkflowCardContainer"] *,
+#nc-root [class*="-ListCard"] * {
+  color: var(--editor-text) !important;
+}
+
+#nc-root [class*="-ColumnHeader"] *,
+#nc-root [class*="-WorkflowTop"] [class*="-NewButton"] {
+  color: var(--editor-accent) !important;
+}
+
+#nc-root [class*="-WorkflowCardContainer"]:hover :is(a, div, span, p, h2) {
+  background: transparent !important;
+}
+
+#nc-root [class*="-WorkflowCardContainer"]:hover button {
+  background: #294035 !important;
+  color: #b6f0e1 !important;
+}
+
+#nc-root [class*="-WorkflowCardContainer"]:hover button:disabled {
+  background: var(--editor-hover) !important;
+  color: var(--editor-muted) !important;
+}
+
+#nc-root [class*="-WorkflowCardContainer"]:hover button[class*="-PublishButton"]:not(:disabled) {
+  background: var(--editor-accent) !important;
+  color: #08231f !important;
+}
+
+#nc-root [class*="-ColumnContainer"],
+#nc-root [class*="-WorkflowColumn"] {
+  border-color: var(--editor-line) !important;
+}
+
+#nc-root [class*="-columnPosition"]::before {
+  background: var(--editor-line) !important;
+}
+
+#nc-root [role="button"][class*="StyledDropdownButton"] {
+  background: var(--editor-hover) !important;
+  color: var(--editor-text) !important;
+  border: 1px solid var(--editor-line) !important;
+  box-shadow: none !important;
+}
+
+#nc-root [role="button"][class*="StyledDropdownButton"]:hover,
+#nc-root [role="button"][class*="StyledDropdownButton"]:focus-visible {
+  background: #2a3e4c !important;
+  color: var(--editor-accent) !important;
+  border-color: var(--editor-accent) !important;
+}
+
+#nc-root [class*="DropdownList"] {
+  border: 1px solid var(--editor-line) !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+body [class$="-menu"] {
+  border: 1px solid var(--editor-line) !important;
+  border-radius: 8px;
+}
+
+body [class$="-option"] {
+  cursor: pointer;
+}
+
+.emoji-title__row {
+  display: flex;
+  gap: 8px;
+}
+
+#nc-root .emoji-title__input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--editor-line) !important;
+  border-radius: 6px;
+  background: var(--editor-bg) !important;
+  color: var(--editor-text) !important;
+  font: inherit;
+}
+
+#nc-root .emoji-title__toggle {
+  flex: none;
+  border: 1px solid var(--editor-line) !important;
+  border-radius: 6px;
+  background: var(--editor-hover) !important;
+  color: var(--editor-text) !important;
+}
+
+.emoji-title__picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+  padding: 7px;
+  border: 1px solid var(--editor-line);
+  border-radius: 7px;
+  background: var(--editor-surface);
+}
+
+#nc-root .emoji-title__choice {
+  width: 38px;
+  height: 38px;
+  padding: 4px;
+  border: 1px solid transparent !important;
+  border-radius: 6px;
+  background: var(--editor-hover) !important;
+  font-size: 22px;
+  line-height: 1;
+}
+
+#nc-root .emoji-title__choice:hover,
+#nc-root .emoji-title__toggle:hover {
+  background: #2a3e4c !important;
+  border-color: var(--editor-accent) !important;
 }
 
 .note-editor {
@@ -235,4 +459,18 @@ body [role="dialog"] {
 @media (max-width: 700px) {
   #nc-root .note-editor__body { height: 58vh; min-height: 300px; padding: 14px; }
   .note-editor__toolbar-spacer { flex-basis: 100%; }
+
+  #nc-root [class*="-WorkflowListContainer"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+    row-gap: 18px;
+  }
+
+  #nc-root [class*="-columnPosition"]::before { display: none !important; }
+
+  #nc-root [class*="-DateTimeControl"]:has(input[type="datetime-local"]) {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    height: auto !important;
+    padding: 8px !important;
+  }
 }

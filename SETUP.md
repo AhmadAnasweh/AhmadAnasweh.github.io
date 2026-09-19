@@ -48,7 +48,9 @@ Visit https://ahmad.anasweh.com/admin/ and click Login with GitHub.
 Authorize your OAuth App while signed in as AhmadAnasweh (or an account with push access).
 Create or edit a note. Paste a full article into Body to convert its HTML to Markdown;
 the text after embedded images stays in place. Paste or add an image to insert it at
-the cursor. Use the dark preview pane to check the result.
+the cursor. Use the dark preview pane to check the result. Tags accept any
+comma-separated values, and the Title field has an emoji picker; emojis typed
+directly into titles work too.
 
 The editor saves unsaved changes as an unpublished draft every five minutes and
 shortly after adding an image. **Save** also saves a draft immediately. Drafts live
