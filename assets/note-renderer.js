@@ -29,7 +29,8 @@
       'cloud-security': 'Cloud security',
       'osint': 'OSINT',
       'cheat-sheets': 'Pinned cheat sheets',
-      'reference': 'Reference & workflow'
+      'reference': 'Reference & workflow',
+      'my-tools': 'My tools'
     };
     var statusNames = {
       'draft': 'Draft',
@@ -53,8 +54,8 @@
     }
     if (Array.isArray(metadata.tags)) {
       metadata.tags.forEach(function (tag) {
-        if (typeof tag === 'string' && tagNames[tag]) {
-          badges.push('<span class="note-tag">' + escapeHtml(tagNames[tag]) + '</span>');
+        if (typeof tag === 'string' && tag.trim()) {
+          badges.push('<span class="note-tag">' + escapeHtml(tagNames[tag] || tag) + '</span>');
         }
       });
     }
