@@ -14,3 +14,6 @@ grouped by each note's Category field. No manual sidebar edit is required. -->
   - [🧠 RAMBreaker — memory forensics](/notes/rambreaker.md)
 - **Reference & workflow**
   - [Notebook self-check](/notes/notebook-self-check.md)
+- **Capstone projects**
+  - [CYBERCAMP3 capstone project](/notes/capstone-project.md)
+  - [CYBERCAMP3 capstone presentation](/notes/capstone-presentation.md)
