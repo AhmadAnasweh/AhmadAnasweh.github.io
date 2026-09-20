@@ -50,6 +50,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   transition: background .15s ease, color .15s ease;
 }
 .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--surface-hover); color: #f5fbff; }
+.sidebar-nav a[href="#/notes/rambreaker"],
+.sidebar-nav a[href="#/notes/rambreaker"]:hover,
+.sidebar-nav a[href="#/notes/rambreaker"].active { color: #ff7885 !important; }
 .sidebar ul li strong { color: #f0f6fb; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
 .sidebar .app-sub-sidebar li:before { color: #698094; }
 
@@ -67,6 +70,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .search .matching-post, .search { border-color: var(--line) !important; }
 .search .matching-post { padding: 10px 4px; border-bottom: 1px solid rgba(43, 59, 75, .7); }
 .search .matching-post h2 { font-size: 14px; color: #edf5fb; }
+.search .matching-post[href="#/notes/rambreaker"] h2 { color: #ff7885; }
 .search .matching-post p { color: var(--muted); }
 .search .search-keyword { color: var(--accent-ink); background: var(--accent); border-radius: 2px; padding: 0 2px; }
 .search .clear-button { display: none !important; }
@@ -156,6 +160,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   letter-spacing: -.045em;
   line-height: 1.12;
 }
+.markdown-section h1 .rambreaker-title { color: #ff7885 !important; text-shadow: 0 0 30px rgba(255, 95, 115, .18); }
 .markdown-section h2 { margin-top: 56px; font-size: 1.6rem; letter-spacing: -.025em; }
 .markdown-section h3 { margin-top: 36px; font-size: 1.2rem; }
 .markdown-section p, .markdown-section li { color: #c9d6e1; }
@@ -265,6 +270,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .recent-note:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
 .recent-note__category { color: var(--accent); font-size: 10px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
 .recent-note strong { color: #f4f8fc; font-size: 15px; line-height: 1.35; }
+.recent-note[href="#/notes/rambreaker"] { border-color: rgba(255, 120, 133, .55); }
+.recent-note[href="#/notes/rambreaker"]:hover { border-color: #ff7885; }
+.recent-note[href="#/notes/rambreaker"] strong { color: #ff7885; }
 .recent-note small { margin-top: auto; color: var(--muted); font-size: 12px; }
 
 .sidebar-toggle { border-color: var(--line); }
