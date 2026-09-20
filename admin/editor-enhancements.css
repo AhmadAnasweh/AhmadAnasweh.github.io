@@ -75,7 +75,8 @@ html, body, #nc-root {
   color: var(--editor-accent) !important;
 }
 
-#nc-root [class*="PageLogoIcon"] svg path:nth-child(n+2) {
+#nc-root [class*="PageLogoIcon"] svg path:nth-child(n+2),
+#nc-root [class*="DecapLogoIcon"] svg path:nth-child(n+2) {
   fill: var(--editor-text) !important;
 }
 
@@ -338,14 +339,36 @@ body [class$="-option"] {
 }
 
 .emoji-title__picker {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
   margin-top: 7px;
-  padding: 7px;
+  padding: 8px;
   border: 1px solid var(--editor-line);
   border-radius: 7px;
   background: var(--editor-surface);
+}
+
+#nc-root .emoji-title__search {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 9px 11px;
+  border: 1px solid var(--editor-line) !important;
+  border-radius: 6px;
+  background: var(--editor-bg) !important;
+  color: var(--editor-text) !important;
+}
+
+.emoji-title__choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(38px, 1fr));
+  gap: 5px;
+  max-height: 190px;
+  overflow-y: auto;
+}
+
+#nc-root .emoji-title__empty {
+  grid-column: 1 / -1;
+  padding: 8px;
+  color: var(--editor-muted) !important;
 }
 
 #nc-root .emoji-title__choice {
