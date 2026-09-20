@@ -225,6 +225,44 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .markdown-section tr:nth-child(2n) { background: #172330; }
 .markdown-section img { max-width: 100%; border: 1px solid var(--line); border-radius: 9px; box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
 
+.pdf-note {
+  margin: 0 0 34px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0b131b;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, .24);
+}
+.pdf-note__bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding: 11px 13px;
+  color: var(--muted);
+  background: var(--surface-raised);
+  font-size: 12px;
+}
+.pdf-note__label { color: var(--accent); font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+.pdf-note__hint { flex: 1 1 220px; }
+.pdf-note__bar a {
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+}
+.pdf-note__bar a:hover { border-color: var(--accent); color: var(--accent); }
+.pdf-note__frame {
+  display: block;
+  width: 100%;
+  height: min(78vh, 920px);
+  min-height: 560px;
+  border: 0;
+  background: #fff;
+}
+.pdf-note__caption { margin: 0 !important; padding: 10px 13px 12px; color: var(--muted) !important; font-size: 12px; }
+
 .workspace-bar {
   display: flex;
   align-items: center;
@@ -373,6 +411,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .markdown-section h1 { font-size: 2.3rem; }
   .markdown-section h2 { margin-top: 42px; }
   .markdown-section table { display: block; overflow-x: auto; white-space: nowrap; }
+  .pdf-note__frame { height: 70vh; min-height: 460px; }
   .profile-logo { display: none; }
   .profile-card { display: none; }
   .top-edit-notes { display: none; }

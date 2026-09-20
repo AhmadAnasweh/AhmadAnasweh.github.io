@@ -115,5 +115,6 @@ collections:
         picker_utc: true
         hint: "Filled in when a note is created. Keep this original date when editing."
       - { label: Title, name: title, widget: emoji_title, hint: "Use the emoji picker or type any emoji directly into the title." }
-      - { label: Body, name: body, widget: markdown, hint: "Write Markdown or paste a full article here. Images and text after them are kept in order." }
+      - { label: Body, name: body, widget: markdown, hint: "Write Markdown or paste a full article here. For a PDF note, include its extracted text in a details block so the site search can index it." }
+      - { label: PDF document, name: pdf, widget: file, required: false, hint: "Optional read-only PDF viewer. Upload a PDF here; it is displayed above the note and cannot be edited." }
       - { label: File, name: file, widget: file, required: false, hint: "Optional attachment below the note. For images in the note body, use Add image or paste into Body." }

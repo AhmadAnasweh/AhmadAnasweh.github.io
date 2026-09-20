@@ -9,6 +9,35 @@
     });
   }
 
+  function localFilePath(value, pattern) {
+    if (typeof value !== 'string' || !value.startsWith('/notes/files/') || value.length <= '/notes/files/'.length) return null;
+    // Reject traversal before URL normalization, then validate the decoded path too.
+    if (value.split(/[\\/]/).includes('..')) return null;
+    try {
+      var url = new URL(value, window.location.origin);
+      var decodedPath = decodeURIComponent(url.pathname);
+      if (url.origin !== window.location.origin || !url.pathname.startsWith('/notes/files/') ||
+          !decodedPath.startsWith('/notes/files/') || decodedPath.split(/[\\/]/).includes('..') ||
+          !pattern.test(url.pathname)) return null;
+      return url.pathname;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function pdfViewer(path, title) {
+    var safePath = escapeHtml(path);
+    var safeTitle = escapeHtml(title || 'PDF document');
+    return '<section class="pdf-note" aria-label="' + safeTitle + '">' +
+      '<div class="pdf-note__bar"><span class="pdf-note__label">Read-only PDF</span>' +
+      '<span class="pdf-note__hint">Search inside the document with Ctrl+F / Cmd+F</span>' +
+      '<a href="' + safePath + '" target="_blank" rel="noopener" data-no-router>Open</a>' +
+      '<a href="' + safePath + '" download data-no-router>Download</a></div>' +
+      '<iframe class="pdf-note__frame" title="' + safeTitle + '" loading="lazy" src="' + safePath + '#view=FitH"></iframe>' +
+      '<p class="pdf-note__caption">This document is displayed as a PDF and cannot be edited in the notes editor. The searchable transcript below is indexed by this site.</p>' +
+      '</section>';
+  }
+
   function prepareNote(content) {
     var match = content.match(/^\uFEFF?---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
     if (!match) return content;
@@ -62,6 +91,8 @@
     if (badges.length) {
       body = '<div class="note-meta">' + badges.join('') + '</div>\n\n' + body;
     }
+    var pdfPath = localFilePath(metadata.pdf, /\.pdf$/i);
+    if (pdfPath) body = pdfViewer(pdfPath, metadata.title) + '\n\n' + body;
     // Tokenize the body so a "# heading" inside a code fence is not mistaken for H1.
     var hasHeading = originalLexer(body).some(function (token) {
       return token.type === 'heading' && token.depth === 1;
@@ -70,20 +101,14 @@
       var title = escapeHtml(metadata.title.replace(/[\r\n]+/g, ' ')).replace(/([\\`*_{}\[\]()#+.!|~])/g, '\\$1');
       body = '# ' + title + '\n\n' + body;
     }
-    if (typeof metadata.file === 'string' && metadata.file.startsWith('/notes/files/')) {
-      try {
-        var url = new URL(metadata.file, window.location.origin);
-        // Only attach local files from the upload folder; reject normalized traversal.
-        var decodedPath = decodeURIComponent(url.pathname);
-        if (url.origin === window.location.origin && url.pathname.startsWith('/notes/files/') &&
-            decodedPath.startsWith('/notes/files/') && !decodedPath.split(/[\\/]/).includes('..') &&
-            url.pathname.length > '/notes/files/'.length) {
-          if (/\.(png|jpe?g|gif|webp|avif)$/i.test(url.pathname)) {
-            body += '\n\n<p><img src="' + escapeHtml(url.pathname) + '" alt="Attached image" loading="lazy"></p>\n';
-          }
-          body += '\n\n<p><a data-no-router download href="' + escapeHtml(url.pathname) + '">Download attachment</a></p>\n';
+    if (typeof metadata.file === 'string') {
+      var filePath = localFilePath(metadata.file, /.+/);
+      if (filePath) {
+        if (/\.(png|jpe?g|gif|webp|avif)$/i.test(filePath)) {
+          body += '\n\n<p><img src="' + escapeHtml(filePath) + '" alt="Attached image" loading="lazy"></p>\n';
         }
-      } catch (error) { console.warn('Invalid attachment path; download link omitted.'); }
+        body += '\n\n<p><a data-no-router download href="' + escapeHtml(filePath) + '">Download attachment</a></p>\n';
+      }
     }
     return body;
   }
