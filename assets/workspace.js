@@ -5,6 +5,7 @@
   var publishedNotesRequest = null;
   var selectedCategory = 'all';
   var visibleNoteCount = 0;
+  var lastRenderedPath = '';
   var categoryLabels = {
     'incident-response': 'Investigations',
     'digital-forensics': 'Digital forensics',
@@ -32,6 +33,24 @@
     return '#/' + path.replace(/\.md$/i, '').split('/').map(encodeURIComponent).join('/');
   }
 
+  function notePassages(content) {
+    var body = content.replace(/^\uFEFF?---\r?\n[\s\S]*?\r?\n---(?:\r?\n|$)/, '');
+    try {
+      // A template is inert: Markdown is parsed for search without loading its
+      // images or running any HTML that a note may contain.
+      var template = document.createElement('template');
+      template.innerHTML = window.marked.parse(body);
+      template.content.querySelectorAll('script, style').forEach(function (element) { element.remove(); });
+      return Array.from(template.content.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, pre, td, th'))
+        .filter(function (element) { return !element.querySelector('p, li, pre, td, th'); })
+        .map(function (element) {
+          return { text: element.textContent.replace(/\s+/g, ' ').trim(), tag: element.tagName };
+        }).filter(function (passage) { return Boolean(passage.text); });
+    } catch (error) {
+      return [{ text: body.replace(/\s+/g, ' ').trim(), tag: 'P' }];
+    }
+  }
+
   function metadataFromContent(content) {
     var frontMatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
     if (!frontMatter || !window.jsyaml) return {};
@@ -52,6 +71,7 @@
       status: typeof metadata.status === 'string' ? metadata.status : 'draft',
       tags: Array.isArray(metadata.tags) ? metadata.tags.filter(function (tag) { return typeof tag === 'string'; }) : [],
       updated: typeof metadata.updated === 'string' ? metadata.updated : '',
+      passages: notePassages(content),
       content: content
     };
   }
@@ -124,9 +144,28 @@
     publishedNotesRequest.then(renderPublishedNotes);
   }
 
-  function searchText(note) {
-    return [note.title, categoryLabels[note.category] || '', note.status, note.tags.join(' '), note.content]
-      .join(' ').toLocaleLowerCase();
+  function excerptAround(passage, query) {
+    var at = passage.toLocaleLowerCase().indexOf(query.toLocaleLowerCase());
+    if (at < 0) return passage.slice(0, 150) + (passage.length > 150 ? '…' : '');
+    var start = Math.max(0, at - 52);
+    var end = Math.min(passage.length, at + query.length + 96);
+    return (start ? '…' : '') + passage.slice(start, end) + (end < passage.length ? '…' : '');
+  }
+
+  function searchHit(note, query) {
+    var passage = note.passages.find(function (text) {
+      return text.text.toLocaleLowerCase().includes(query.toLocaleLowerCase());
+    });
+    if (passage) return {
+      note: note,
+      preview: excerptAround(passage.text, query),
+      scope: passage.tag === 'H1' ? 'heading' : 'body'
+    };
+    var details = [note.title, categoryLabels[note.category] || '', note.status, note.tags.join(' ')].join(' ');
+    if (details.toLocaleLowerCase().includes(query.toLocaleLowerCase())) {
+      return { note: note, preview: 'Matched in the title or note details. Opens at the top of this note.', scope: 'details' };
+    }
+    return null;
   }
 
   function updateSearchCount(count, query) {
@@ -140,8 +179,9 @@
     var search = document.querySelector('.search');
     var navigation = document.querySelector('.sidebar-nav');
     if (!search || !navigation || !publishedNotes) return;
+    hideSearchPreview();
     var panel = search.querySelector('.results-panel');
-    var query = value.trim().toLocaleLowerCase();
+    var query = value.trim().replace(/\s+/g, ' ');
     if (!query) {
       panel.classList.remove('show');
       panel.innerHTML = '';
@@ -150,15 +190,15 @@
       return;
     }
     var results = publishedNotes.filter(function (note) {
-      return (selectedCategory === 'all' || note.category === selectedCategory) && searchText(note).indexOf(query) !== -1;
-    });
-    panel.innerHTML = results.length ? results.map(function (note) {
-      var plain = note.content.replace(/^---[\s\S]*?---\s*/m, '').replace(/[#*_`>|\[\]()]/g, ' ').replace(/\s+/g, ' ').trim();
-      var position = plain.toLocaleLowerCase().indexOf(query);
-      var excerpt = position < 0 ? plain.slice(0, 120) : plain.slice(Math.max(0, position - 45), position + query.length + 75);
-      return '<a class="matching-post live-search-result" href="' + routeForNote(note.path) + '">' +
+      return selectedCategory === 'all' || note.category === selectedCategory;
+    }).map(function (note) { return searchHit(note, query); }).filter(Boolean);
+    panel.innerHTML = results.length ? results.map(function (result) {
+      var note = result.note;
+      return '<a class="matching-post live-search-result" href="' + routeForNote(note.path) +
+        '?find=' + encodeURIComponent(query) + '&scope=' + result.scope + '" data-preview="' + escapeHtml(result.preview) +
+        '" data-query="' + escapeHtml(query) + '">' +
         '<h2>' + escapeHtml(note.title) + '</h2><p>' + escapeHtml(categoryLabels[note.category] || 'Reference & workflow') +
-        (excerpt ? ' · ' + escapeHtml(excerpt) : '') + '</p></a>';
+        ' · Jump to match</p><span class="search-result__inline">' + escapeHtml(result.preview) + '</span></a>';
     }).join('') : '<p class="empty">No matching notes.</p>';
     panel.classList.add('show');
     navigation.classList.add('hide');
@@ -341,6 +381,180 @@
     searchInput.parentNode.appendChild(clear);
   }
 
+  function hideSearchPreview() {
+    var preview = document.querySelector('.search-preview');
+    if (preview) preview.hidden = true;
+  }
+
+  function previewText(textValue, query) {
+    var at = textValue.toLocaleLowerCase().indexOf(query.toLocaleLowerCase());
+    if (at < 0) return escapeHtml(textValue);
+    return escapeHtml(textValue.slice(0, at)) + '<mark>' +
+      escapeHtml(textValue.slice(at, at + query.length)) + '</mark>' +
+      escapeHtml(textValue.slice(at + query.length));
+  }
+
+  function showSearchPreview(result) {
+    if (!result || (window.matchMedia('(hover: none)').matches && document.activeElement !== result)) return;
+    var preview = document.querySelector('.search-preview');
+    if (!preview) {
+      preview = document.createElement('div');
+      preview.className = 'search-preview';
+      preview.id = 'search-preview';
+      preview.setAttribute('role', 'tooltip');
+      document.body.appendChild(preview);
+    }
+    preview.innerHTML = '<strong>' + escapeHtml(result.querySelector('h2').textContent) +
+      '</strong><p>' + previewText(result.dataset.preview || '', result.dataset.query || '') + '</p>';
+    preview.hidden = false;
+    var resultBox = result.getBoundingClientRect();
+    var previewBox = preview.getBoundingClientRect();
+    var left = resultBox.right + 12;
+    if (left + previewBox.width > window.innerWidth - 8) left = resultBox.left - previewBox.width - 12;
+    preview.style.left = Math.max(8, left) + 'px';
+    preview.style.top = Math.max(8, Math.min(resultBox.top, window.innerHeight - previewBox.height - 8)) + 'px';
+  }
+
+  // Build a Range over visible passage text, including phrases split by inline
+  // Markdown such as bold text or links. Whitespace is normalized for matching.
+  function rangeInPassage(element, query) {
+    var walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+    var positions = [];
+    var textValue = '';
+    var node;
+    while ((node = walker.nextNode())) {
+      if (node.parentElement && node.parentElement.closest('button, script, style')) continue;
+      for (var i = 0; i < node.nodeValue.length; i += 1) {
+        var character = node.nodeValue[i];
+        if (/\s/.test(character)) {
+          if (!textValue || textValue.endsWith(' ')) continue;
+          character = ' ';
+        }
+        textValue += character;
+        positions.push({ node: node, offset: i });
+      }
+    }
+    var matchAt = textValue.toLocaleLowerCase().indexOf(query.toLocaleLowerCase());
+    if (matchAt < 0) return null;
+    var first = positions[matchAt];
+    var last = positions[matchAt + query.length - 1];
+    if (!first || !last) return null;
+    var range = document.createRange();
+    range.setStart(first.node, first.offset);
+    range.setEnd(last.node, last.offset + 1);
+    return range;
+  }
+
+  function clearSearchJump(section) {
+    section.querySelectorAll('.search-jump-target').forEach(function (element) {
+      element.classList.remove('search-jump-target');
+    });
+    section.querySelectorAll('mark.search-jump-match').forEach(function (mark) {
+      var parent = mark.parentNode;
+      mark.replaceWith(document.createTextNode(mark.textContent));
+      parent.normalize();
+    });
+    if (window.CSS && CSS.highlights) CSS.highlights.delete('note-search-match');
+  }
+
+  function jumpToSearchMatch() {
+    var section = document.querySelector('.markdown-section');
+    if (!section) return;
+    clearSearchJump(section);
+    var questionAt = window.location.hash.indexOf('?');
+    if (questionAt < 0) return;
+    var searchParams = new URLSearchParams(window.location.hash.slice(questionAt + 1));
+    var query = searchParams.get('find');
+    if (!query) return;
+    query = query.trim().replace(/\s+/g, ' ');
+    if (!query || query.length > 200) return;
+    var candidates = Array.from(section.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, pre, td, th'))
+      .filter(function (element) {
+        return !element.closest('.workspace-bar') &&
+          !(searchParams.get('scope') === 'body' && element.tagName === 'H1') &&
+          !element.querySelector('p, li, pre, td, th');
+      });
+    var found = null;
+    candidates.some(function (element) {
+      var range = rangeInPassage(element, query);
+      if (!range) return false;
+      found = { element: element, range: range };
+      return true;
+    });
+    if (!found) {
+      section.querySelectorAll('.note-meta span').forEach(function (element) {
+        if (!found) {
+          var range = rangeInPassage(element, query);
+          if (range) found = { element: element, range: range };
+        }
+      });
+    }
+    if (!found) {
+      var heading = section.querySelector('h1');
+      if (heading) found = { element: heading, range: null };
+    }
+    if (!found) return;
+    found.element.classList.add('search-jump-target');
+    if (found.range) {
+      if (found.range.startContainer === found.range.endContainer) {
+        var mark = document.createElement('mark');
+        mark.className = 'search-jump-match';
+        found.range.surroundContents(mark);
+      } else if (window.CSS && CSS.highlights && window.Highlight) {
+        CSS.highlights.set('note-search-match', new Highlight(found.range));
+      }
+    }
+    var routeHash = window.location.hash;
+    function alignMatch() {
+      if (window.location.hash === routeHash && document.contains(found.element)) {
+        found.element.scrollIntoView({ behavior: 'auto', block: 'center' });
+      }
+    }
+    window.setTimeout(alignMatch, 100);
+    // Images above a match can change the page height after Docsify renders.
+    // Realign once they have loaded so a deep match remains in view.
+    var pendingImages = Array.from(section.querySelectorAll('img')).filter(function (image) {
+      return !image.complete && Boolean(image.compareDocumentPosition(found.element) & Node.DOCUMENT_POSITION_FOLLOWING);
+    });
+    if (pendingImages.length) {
+      var imagesSettled = Promise.all(pendingImages.map(function (image) {
+        return new Promise(function (resolve) {
+          image.addEventListener('load', resolve, { once: true });
+          image.addEventListener('error', resolve, { once: true });
+        });
+      }));
+      Promise.race([imagesSettled, new Promise(function (resolve) { window.setTimeout(resolve, 1800); })])
+        .then(alignMatch);
+    }
+  }
+
+  document.addEventListener('pointerover', function (event) {
+    var result = event.target.closest('.live-search-result');
+    if (result) showSearchPreview(result);
+  });
+  document.addEventListener('pointerout', function (event) {
+    var result = event.target.closest('.live-search-result');
+    if (result && !result.contains(event.relatedTarget)) hideSearchPreview();
+  });
+  document.addEventListener('focusin', function (event) {
+    var result = event.target.closest('.live-search-result');
+    if (result) showSearchPreview(result);
+  });
+  document.addEventListener('focusout', function (event) {
+    if (event.target.closest('.live-search-result')) hideSearchPreview();
+  });
+  document.addEventListener('click', function (event) {
+    if (event.target.closest('.live-search-result')) hideSearchPreview();
+  });
+  document.addEventListener('scroll', hideSearchPreview, true);
+  window.addEventListener('resize', hideSearchPreview);
+  window.addEventListener('hashchange', function () {
+    // Docsify does not rerender when only a note's query string changes.
+    if (window.location.hash.split('?')[0] === lastRenderedPath) {
+      window.setTimeout(jumpToSearchMatch, 0);
+    }
+  });
+
   document.addEventListener('keydown', function (event) {
     var active = document.activeElement;
     var editable = active && (active.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName));
@@ -361,6 +575,8 @@
         mountProfileLogo();
         improveSidebar();
         loadPublishedNotes();
+        lastRenderedPath = window.location.hash.split('?')[0];
+        jumpToSearchMatch();
       }, 0);
     });
   });

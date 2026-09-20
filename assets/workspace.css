@@ -70,10 +70,34 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .search .matching-post, .search { border-color: var(--line) !important; }
 .search .matching-post { padding: 10px 4px; border-bottom: 1px solid rgba(43, 59, 75, .7); }
 .search .matching-post h2 { font-size: 14px; color: #edf5fb; }
-.search .matching-post[href="#/notes/rambreaker"] h2 { color: #ff7885; }
+.search .matching-post[href^="#/notes/rambreaker?"] h2 { color: #ff7885; }
 .search .matching-post p { color: var(--muted); }
 .search .search-keyword { color: var(--accent-ink); background: var(--accent); border-radius: 2px; padding: 0 2px; }
 .search .clear-button { display: none !important; }
+.live-search-result { border-radius: 7px; }
+.live-search-result:hover, .live-search-result:focus-visible { background: var(--surface-hover); }
+.search-result__inline { display: none; }
+.search-preview {
+  position: fixed;
+  z-index: 120;
+  width: 290px;
+  max-width: calc(100vw - 16px);
+  max-height: 170px;
+  overflow: hidden;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface-raised);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .38);
+  color: var(--text);
+  pointer-events: none;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.search-preview[hidden] { display: none; }
+.search-preview strong { display: block; margin-bottom: 6px; color: #f4f8fc; font-size: 12px; line-height: 1.35; }
+.search-preview p { margin: 0; color: #c9d6e1; }
+.search-preview mark, .search-jump-match { color: #17212c !important; background: #ffe189; border-radius: 2px; padding: 0 2px; }
 .search-tools { display: flex; align-items: center; gap: 8px; margin-top: 9px; }
 .note-category-filter {
   min-width: 0;
@@ -164,6 +188,14 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .markdown-section h2 { margin-top: 56px; font-size: 1.6rem; letter-spacing: -.025em; }
 .markdown-section h3 { margin-top: 36px; font-size: 1.2rem; }
 .markdown-section p, .markdown-section li { color: #c9d6e1; }
+.markdown-section .search-jump-target {
+  outline: 2px solid rgba(255, 225, 137, .75);
+  outline-offset: 5px;
+  border-radius: 3px;
+  background: rgba(255, 225, 137, .09);
+  scroll-margin-top: 24px;
+}
+::highlight(note-search-match) { color: #17212c; background: #ffe189; }
 .markdown-section p { margin: 0 0 20px; }
 .markdown-section li { margin: 5px 0; }
 .markdown-section ul, .markdown-section ol { padding-left: 1.45em; }
@@ -344,6 +376,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .profile-logo { display: none; }
   .profile-card { display: none; }
   .top-edit-notes { display: none; }
+}
+
+@media (hover: none) {
+  .search-result__inline { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.4; }
 }
 
 @media (prefers-reduced-motion: reduce) {
