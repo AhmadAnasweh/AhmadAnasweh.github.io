@@ -33,7 +33,7 @@
       '<span class="pdf-note__hint">Search inside the document with Ctrl+F / Cmd+F</span>' +
       '<a href="' + safePath + '" target="_blank" rel="noopener" data-no-router>Open</a>' +
       '<a href="' + safePath + '" download data-no-router>Download</a></div>' +
-      '<iframe class="pdf-note__frame" title="' + safeTitle + '" loading="lazy" src="' + safePath + '#view=FitH"></iframe>' +
+      '<iframe class="pdf-note__frame" title="' + safeTitle + '" src="' + safePath + '#view=FitH"></iframe>' +
       '<p class="pdf-note__caption">This document is displayed as a PDF and cannot be edited in the notes editor. The searchable transcript below is indexed by this site.</p>' +
       '</section>';
   }
