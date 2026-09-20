@@ -1,5 +1,5 @@
 ---
-title: "💽 DiskConn — disk-image connections"
+title: "💾 DiskConn — disk-image connections"
 category: my-tools
 status: in-use
 tags: [diskconn, digital-forensics, disk-images, network]

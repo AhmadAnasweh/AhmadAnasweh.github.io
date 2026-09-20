@@ -7,7 +7,7 @@ grouped by each note's Category field. No manual sidebar edit is required. -->
   - [Sample SOC investigation walkthrough](/notes/sample-soc-investigation-walkthrough.md)
 - **My tools**
   - [🧩 EasyParse — log parsing](/notes/easyparse.md)
-  - [💽 DiskConn — disk-image connections](/notes/diskconn.md)
+  - [💾 DiskConn — disk-image connections](/notes/diskconn.md)
   - [🔎 CheckIt — bulk VirusTotal checks](/notes/checkit.md)
   - [🛡️ OfflineAutoruns — persistence review](/notes/offlineautoruns.md)
   - [📁 AnaswehFTP — LAN file sharing](/notes/anaswehftp.md)
