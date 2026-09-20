@@ -136,6 +136,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .sidebar-nav li.sidebar-category:not(.sidebar-category--collapsed) > p strong:after { content: '−'; }
 .sidebar-nav li.sidebar-category--collapsed > ul { display: none; }
 .sidebar-nav li.sidebar-category[data-category="reference"] > p strong { color: #9fb4ff; }
+.sidebar-nav li.sidebar-category[data-category="my-tools"] > p strong { color: #b8e9da; }
 
 .content { left: 288px; background: var(--surface); }
 .markdown-section {
@@ -238,6 +239,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .note-status--archived { color: #93a1af !important; background: rgba(147, 161, 175, .1); }
 .note-tag { border-color: var(--line); color: var(--muted) !important; background: var(--surface-raised); font-weight: 650; letter-spacing: .02em; text-transform: none; }
 .note-category--reference { border-color: rgba(159, 180, 255, .35); color: #b5c4ff !important; background: rgba(159, 180, 255, .1); }
+.note-category--my-tools { border-color: rgba(99, 217, 189, .4); color: #a0ead8 !important; background: rgba(99, 217, 189, .11); }
 .note-category--digital-forensics { border-color: rgba(191, 152, 255, .38); color: #ceb2ff !important; background: rgba(191, 152, 255, .1); }
 .note-category--threat-hunting { border-color: rgba(255, 188, 112, .4); color: #ffd09a !important; background: rgba(255, 188, 112, .1); }
 .note-category--detection-engineering { border-color: rgba(111, 205, 255, .4); color: #9edfff !important; background: rgba(111, 205, 255, .1); }

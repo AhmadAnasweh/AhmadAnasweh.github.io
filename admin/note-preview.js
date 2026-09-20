@@ -11,7 +11,8 @@
     'cloud-security': 'Cloud security',
     'osint': 'OSINT',
     'cheat-sheets': 'Pinned cheat sheets',
-    'reference': 'Reference & workflow'
+    'reference': 'Reference & workflow',
+    'my-tools': 'My tools'
   };
 
   var NotePreview = window.createClass({

@@ -14,11 +14,12 @@
     'cloud-security': 'Cloud security',
     'osint': 'OSINT',
     'cheat-sheets': 'Pinned cheat sheets',
-    'reference': 'Reference & workflow'
+    'reference': 'Reference & workflow',
+    'my-tools': 'My tools'
   };
   var categoryOrder = [
     'incident-response', 'digital-forensics', 'threat-hunting',
-    'detection-engineering', 'malware-analysis', 'cloud-security', 'osint', 'cheat-sheets', 'reference'
+    'detection-engineering', 'malware-analysis', 'cloud-security', 'osint', 'cheat-sheets', 'my-tools', 'reference'
   ];
 
   function escapeHtml(value) {
@@ -273,13 +274,15 @@
 
   function improveSidebar() {
     var sidebarCategoryLabels = {
-      'Investigations': 'investigations',
+      'Investigations': 'incident-response',
       'Digital forensics': 'digital-forensics',
       'Threat hunting': 'threat-hunting',
       'Detection engineering': 'detection-engineering',
       'Malware analysis': 'malware-analysis',
       'Cloud security': 'cloud-security',
       'OSINT': 'osint',
+      'Pinned cheat sheets': 'cheat-sheets',
+      'My tools': 'my-tools',
       'Reference & workflow': 'reference'
     };
     document.querySelectorAll('.sidebar-nav strong').forEach(function (label) {
