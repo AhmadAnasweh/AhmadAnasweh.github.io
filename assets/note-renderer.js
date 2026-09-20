@@ -91,8 +91,6 @@
     if (badges.length) {
       body = '<div class="note-meta">' + badges.join('') + '</div>\n\n' + body;
     }
-    var pdfPath = localFilePath(metadata.pdf, /\.pdf$/i);
-    if (pdfPath) body = pdfViewer(pdfPath, metadata.title) + '\n\n' + body;
     // Tokenize the body so a "# heading" inside a code fence is not mistaken for H1.
     var hasHeading = originalLexer(body).some(function (token) {
       return token.type === 'heading' && token.depth === 1;
@@ -100,6 +98,12 @@
     if (typeof metadata.title === 'string' && metadata.title.trim() && !hasHeading) {
       var title = escapeHtml(metadata.title.replace(/[\r\n]+/g, ' ')).replace(/([\\`*_{}\[\]()#+.!|~])/g, '\\$1');
       body = '# ' + title + '\n\n' + body;
+    }
+    var pdfPath = localFilePath(metadata.pdf, /\.pdf$/i);
+    if (pdfPath) {
+      var viewer = pdfViewer(pdfPath, metadata.title);
+      var titleBreak = body.indexOf('\n\n', body.indexOf('# '));
+      body = titleBreak >= 0 ? body.slice(0, titleBreak + 2) + viewer + '\n\n' + body.slice(titleBreak + 2) : viewer + '\n\n' + body;
     }
     if (typeof metadata.file === 'string') {
       var filePath = localFilePath(metadata.file, /.+/);
