@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#123a35" />
+    <meta name="description" content="Ù…Ù†ØµØ© ØªØ±Ø§Ø« Ø¹Ø§Ø¦Ù„Ø© Ø§Ù„Ø¹Ù†Ø§Ø³ÙˆØ©" />
+    <title>Ø¹Ø§Ø¦Ù„Ø© Ø§Ù„Ø¹Ù†Ø§Ø³ÙˆØ© | Ø´Ø¬Ø±Ø© Ø§Ù„Ø¹Ø§Ø¦Ù„Ø©</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Kufi+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="responsive.css" />
+  </head>
+  <body>
+    <a class="skip" href="#treeCanvas">Ø§Ù†ØªÙ‚Ù„ Ø¥Ù„Ù‰ Ø§Ù„Ø´Ø¬Ø±Ø©</a>
+    <header class="topbar">
+      <button class="brand" id="homeBtn" aria-label="Ø§Ù„Ø¹ÙˆØ¯Ø© Ø¥Ù„Ù‰ Ø§Ù„Ø´Ø¬Ø±Ø©">
+        <span class="brand-mark">Ø¹</span>
+        <span><strong>Ø¹Ø§Ø¦Ù„Ø© Ø§Ù„Ø¹Ù†Ø§Ø³ÙˆØ©</strong><small>Ø°Ø§ÙƒØ±Ø© Ù…ØªØµÙ„Ø© Ø¹Ø¨Ø± Ø§Ù„Ø£Ø¬ÙŠØ§Ù„</small></span>
+      </button>
+      <div class="top-actions">
+        <button class="icon-btn" id="helpBtn" aria-label="Ù…Ø³Ø§Ø¹Ø¯Ø©">ØŸ</button>
+        <button class="menu-btn" id="adminBtn"><span>âš™</span> Ø§Ù„Ø¥Ø¯Ø§Ø±Ø©</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="title">
+        <div>
+          <p class="eyebrow">Ø§Ù„Ø£Ø±Ø¯Ù† Â· Ø§Ù„Ø³Ù„Ø· Â· Ù…Ù†Ø° Ø£Ø¬ÙŠØ§Ù„</p>
+          <h1 id="title">Ø´Ø¬Ø±Ø© Ø¹Ø§Ø¦Ù„Ø© Ø§Ù„Ø¹Ù†Ø§Ø³ÙˆØ©</h1>
+          <p>Ø§Ø¨Ø­Ø«ØŒ Ø§Ø³ØªÙƒØ´Ù Ø§Ù„ÙØ±ÙˆØ¹ØŒ ÙˆØ§Ø­ÙØ¸ Ø§Ù„Ø­ÙƒØ§ÙŠØ© Ù„Ù„Ø£Ø¬ÙŠØ§Ù„ Ø§Ù„Ù‚Ø§Ø¯Ù…Ø©.</p>
+        </div>
+        <div class="heritage-orbit" aria-hidden="true"><i></i><i></i><span>Ø§Ù„Ø³Ù„Ø·</span></div>
+      </section>
+
+      <section class="search-row" aria-label="Ø§Ù„Ø¨Ø­Ø« ÙˆØ§Ù„ØªÙ†Ù‚Ù„">
+        <label class="searchbox">
+          <span aria-hidden="true">âŒ•</span>
+          <input id="searchInput" type="search" autocomplete="off" placeholder="Ø§Ø¨Ø­Ø« Ø¨Ø§Ù„Ø§Ø³Ù… Ø£Ùˆ Ø±Ù…Ø² Ø§Ù„Ø³Ù„Ø§Ù„Ø© (Ù…Ø«Ø§Ù„: Ø£Ø­Ù…Ø¯ØŒ A-1-2)" />
+          <kbd>âŒ˜ K</kbd>
+        </label>
+        <div class="segmented" aria-label="Ø§ØªØ¬Ø§Ù‡ Ø§Ù„Ø´Ø¬Ø±Ø©">
+          <button class="selected" data-layout="vertical">Ø±Ø£Ø³ÙŠ</button>
+          <button data-layout="horizontal">Ø£ÙÙ‚ÙŠ</button>
+        </div>
+      </section>
+      <div id="searchResults" class="search-results" aria-live="polite"></div>
+
+      <section class="tree-shell" aria-label="Ø´Ø¬Ø±Ø© Ø§Ù„Ø¹Ø§Ø¦Ù„Ø© Ø§Ù„ØªÙØ§Ø¹Ù„ÙŠØ©">
+        <div class="tree-guide"><span class="status-dot"></span><span id="treeStatus">Ø§Ø³Ø­Ø¨ Ù„Ù„ØªÙ†Ù‚Ù„ Â· ÙƒØ¨Ù‘Ø± Ø¨Ø¥ØµØ¨Ø¹ÙŠÙ†</span><button id="collapseAll">Ø·ÙŠÙ‘ Ø§Ù„ÙØ±ÙˆØ¹</button></div>
+        <div id="treeCanvas" class="tree-canvas" tabindex="0" aria-label="Ù…Ø³Ø§Ø­Ø© Ø´Ø¬Ø±Ø© Ø§Ù„Ø¹Ø§Ø¦Ù„Ø©. Ø§Ø³ØªØ®Ø¯Ù… Ø§Ù„Ø³Ø­Ø¨ ÙˆØ§Ù„ØªÙƒØ¨ÙŠØ± Ù„Ù„ØªÙ†Ù‚Ù„.">
+          <div id="treeWorld" class="tree-world"></div>
+          <div class="tree-empty" id="treeEmpty" hidden>Ù„Ø§ ØªÙˆØ¬Ø¯ Ù†ØªØ§Ø¦Ø¬ ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„ÙØ±Ø¹.</div>
+        </div>
+        <div class="tree-controls" aria-label="Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ø´Ø¬Ø±Ø©">
+          <button id="zoomIn" aria-label="ØªÙƒØ¨ÙŠØ±">+</button>
+          <button id="zoomOut" aria-label="ØªØµØºÙŠØ±">âˆ’</button>
+          <button id="recenter" aria-label="ØªÙˆØ³ÙŠØ· Ø§Ù„Ø´Ø¬Ø±Ø©">â—Ž</button>
+        </div>
+      </section>
+
+      <section class="info-grid">
+        <article><span class="info-icon">âŒ˜</span><h2>Ù‡ÙˆÙŠØ© Ø¯Ù‚ÙŠÙ‚Ø©</h2><p>Ù„ÙƒÙ„ ÙØ±Ø¯ Ù…Ø¹Ø±Ù‘Ù Ø¯Ø§Ø®Ù„ÙŠ Ø«Ø§Ø¨Øª ÙˆØ±Ù…Ø² Ø³Ù„Ø§Ù„Ø© Ù…Ù‚Ø±ÙˆØ¡ Ù„Ù„Ø±Ø¬ÙˆØ¹ Ø§Ù„Ø³Ø±ÙŠØ¹.</p></article>
+        <article><span class="info-icon">âŒ•</span><h2>Ø¨Ø­Ø« ÙŠÙÙ‡Ù… Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©</h2><p>ÙŠØªØ³Ø§Ù…Ø­ Ù…Ø¹ Ø§Ù„Ù‡Ù…Ø²Ø§Øª ÙˆØ§Ù„ØªØ´ÙƒÙŠÙ„ ÙˆØ§Ø®ØªÙ„Ø§ÙØ§Øª Ø§Ù„ÙƒØªØ§Ø¨Ø© Ø§Ù„Ø´Ø§Ø¦Ø¹Ø©.</p></article>
+        <article><span class="info-icon">âŒ</span><h2>Ù…Ø´Ø§Ø±ÙƒØ© Ù…Ø³Ø¤ÙˆÙ„Ø©</h2><p>Ø£Ø±Ø³Ù„ ØªØµØ­ÙŠØ­Ù‹Ø§ Ù„Ù„Ù…Ø±Ø§Ø¬Ø¹Ø©Ø› Ù„Ø§ ØªÙÙ†Ø´Ø± Ø§Ù„ØªØ¹Ø¯ÙŠÙ„Ø§Øª Ù…Ø¨Ø§Ø´Ø±Ø©.</p></article>
+      </section>
+    </main>
+
+    <button id="requestBtn" class="request-fab"><span>ï¼‹</span> Ø·Ù„Ø¨ ØªØ¹Ø¯ÙŠÙ„</button>
+
+    <aside id="personPanel" class="panel" aria-label="Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ø´Ø®Øµ" aria-hidden="true">
+      <div class="panel-head"><button class="close" data-close="personPanel" aria-label="Ø¥ØºÙ„Ø§Ù‚">Ã—</button><span class="panel-kicker">Ø¨Ø·Ø§Ù‚Ø© ÙØ±Ø¯</span></div>
+      <div id="personContent"></div>
+    </aside>
+
+    <div id="adminModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Ù„ÙˆØ­Ø© Ø§Ù„Ø¥Ø¯Ø§Ø±Ø©">
+      <div class="modal-card admin-card">
+        <header class="modal-head"><div><p class="eyebrow">Ù…Ø³Ø§Ø­Ø© Ø®Ø§ØµØ©</p><h2>Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø´Ø¬Ø±Ø©</h2></div><button class="close" data-close="adminModal">Ã—</button></header>
+        <nav class="admin-tabs"><button class="active" data-tab="people">Ø§Ù„Ø£Ø´Ø®Ø§Øµ</button><button data-tab="history">Ø§Ù„Ø³Ø¬Ù„</button><button data-tab="about">Ø§Ù„Ø¯Ù„ÙŠÙ„</button></nav>
+        <section id="tab-people" class="admin-tab active">
+          <div class="admin-toolbar"><button class="primary" id="addPersonBtn">ï¼‹ Ø¥Ø¶Ø§ÙØ© Ø´Ø®Øµ</button><button id="undoBtn">â†¶ ØªØ±Ø§Ø¬Ø¹</button><button id="seedLargeBtn">Ø§Ø®ØªØ¨Ø§Ø± 1,200 Ø´Ø®Øµ</button></div>
+          <div id="adminPeople" class="people-list"></div>
+        </section>
+        <section id="tab-history" class="admin-tab"><div id="auditList" class="audit-list"></div></section>
+        <section id="tab-about" class="admin-tab docs"><h3>Ù†Ø¸Ø§Ù…Ø§ Ø§Ù„ØªØ¹Ø±ÙŠÙ</h3><p><b>Ø§Ù„Ù…Ø¹Ø±Ù‘Ù Ø§Ù„Ø¯Ø§Ø®Ù„ÙŠ</b> Ù‡Ùˆ UUID Ø«Ø§Ø¨Øª Ù„Ø§ ÙŠØ¸Ù‡Ø± Ø¹Ø§Ø¯Ø©Ù‹ Ù„Ù„Ø²ÙˆØ§Ø± ÙˆÙ„Ø§ ÙŠØªØºÙŠØ± Ø¹Ù†Ø¯ ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„Ø§Ø³Ù… Ø£Ùˆ Ø§Ù„Ø¹Ù„Ø§Ù‚Ø©. Ù‡Ùˆ Ù…ÙØªØ§Ø­ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ÙˆØ­ÙŠØ¯.</p><p><b>Ø±Ù…Ø² Ø§Ù„Ø³Ù„Ø§Ù„Ø©</b> Ù…Ø«Ù„ <bdi dir="ltr">A-1-2-4</bdi> Ù…Ø±Ø¬Ø¹ Ù…Ù‚Ø±ÙˆØ¡ Ù„Ù„Ø¨Ø´Ø± ÙÙ‚Ø·Ø› Ù‚Ø¯ ÙŠØªØºÙŠØ± Ø¥Ø°Ø§ Ø£ÙØ¹ÙŠØ¯ ØªÙ†Ø¸ÙŠÙ… Ø§Ù„ÙØ±Ø¹ØŒ ÙˆÙ„Ø§ ÙŠØ³ØªØ®Ø¯Ù… Ø£Ø¨Ø¯Ù‹Ø§ ÙƒÙ…ÙØªØ§Ø­ Ù‚Ø§Ø¹Ø¯Ø© Ø¨ÙŠØ§Ù†Ø§Øª.</p><h3>Ø§Ù„Ø®ØµÙˆØµÙŠØ©</h3><p>Ù‡Ø°Ù‡ Ø§Ù„Ù†Ø³Ø®Ø© Ù„Ø§ ØªØ¬Ù…Ø¹ ØµÙˆØ± Ø§Ù„Ù‡ÙˆÙŠØ© Ø£Ùˆ ØªØ®Ø²Ù†Ù‡Ø§. Ù†Ù…ÙˆØ°Ø¬ Ø§Ù„Ø²Ø§Ø¦Ø± ÙŠÙØªØ­ Ø±Ø³Ø§Ù„Ø© Ø¨Ø±ÙŠØ¯ Ø¬Ø§Ù‡Ø²Ø© ÙÙ‚Ø·Ø› Ø§Ù„Ø¥Ø±Ø³Ø§Ù„ ÙŠØªÙ… Ù…Ù† ØªØ·Ø¨ÙŠÙ‚ Ø§Ù„Ø¨Ø±ÙŠØ¯ Ù„Ø¯ÙŠÙƒ.</p><h3>Ø§Ù„Ø¹Ù…Ù„ Ø¹Ù„Ù‰ Ù†Ø·Ø§Ù‚ ÙˆØ§Ø³Ø¹</h3><p>Ù„Ø§ ØªÙØ±Ø³Ù… Ø¥Ù„Ø§ Ø§Ù„Ø¹Ù‚Ø¯ Ø§Ù„Ù…Ø±Ø¦ÙŠØ© ÙÙŠ Ø§Ù„ÙØ±Ø¹ Ø§Ù„Ù…ÙØªÙˆØ­ØŒ ÙˆØªÙØ­Ø¯Ù‘Ø« Ø§Ù„Ø´Ø¬Ø±Ø© Ø¹Ù†Ø¯ Ø§Ù„ØªÙˆØ³ÙŠØ¹ Ø£Ùˆ Ø§Ù„Ø¨Ø­Ø«. Ø²Ø± Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª ÙŠØ­Ø§ÙƒÙŠ 1,200 ÙØ±Ø¯.</p></section>
+      </div>
+    </div>
+
+    <div id="editorModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="ØªØ­Ø±ÙŠØ± Ø´Ø®Øµ">
+      <form id="personForm" class="modal-card editor-card">
+        <header class="modal-head"><div><p class="eyebrow" id="formMode">Ø¥Ø¶Ø§ÙØ©</p><h2 id="formTitle">Ø´Ø®Øµ Ø¬Ø¯ÙŠØ¯</h2></div><button type="button" class="close" data-close="editorModal">Ã—</button></header>
+        <input type="hidden" name="id" />
+        <div class="form-grid">
+          <label>Ø§Ù„Ø§Ø³Ù… Ø§Ù„ÙƒØ§Ù…Ù„<input name="name" required maxlength="80" placeholder="Ù…Ø«Ø§Ù„: Ø£Ø­Ù…Ø¯ Ù…Ø­Ù…Ø¯ Ø§Ù„Ø¹Ù†Ø§Ø³ÙˆØ©" /></label>
+          <label>Ø±Ù…Ø² Ø§Ù„Ø³Ù„Ø§Ù„Ø© (Ù„Ù„Ø¹Ø±Ø¶)<input name="lineageCode" dir="ltr" maxlength="32" placeholder="A-1-2" /></label>
+          <label>Ø³Ù†Ø© Ø§Ù„Ù…ÙŠÙ„Ø§Ø¯<input name="birthYear" type="number" min="1700" max="2100" placeholder="1988" /></label>
+          <label>Ø§Ù„Ø­Ø§Ù„Ø©<select name="living"><option value="true">Ø¹Ù„Ù‰ Ù‚ÙŠØ¯ Ø§Ù„Ø­ÙŠØ§Ø©</option><option value="false">Ù…ØªÙˆÙÙ‰</option></select></label>
+          <label>Ø§Ù„Ø£Ø¨ / Ø§Ù„Ø£Ù…<select name="parentId"><option value="">Ø¨Ø¯ÙˆÙ† Ø±Ø¨Ø· Ø­Ø§Ù„ÙŠÙ‹Ø§</option></select></label>
+          <label>Ø§Ù„Ø²ÙˆØ¬ / Ø§Ù„Ø²ÙˆØ¬Ø©<select name="spouseId"><option value="">Ø¨Ø¯ÙˆÙ† Ø±Ø¨Ø· Ø­Ø§Ù„ÙŠÙ‹Ø§</option></select></label>
+        </div>
+        <label>Ù…Ù„Ø§Ø­Ø¸Ø© Ø¹Ø§Ø¦Ù„ÙŠØ©<textarea name="note" maxlength="300" placeholder="Ù…Ø¹Ù„ÙˆÙ…Ø© Ù…ÙˆØ¬Ø²Ø© ÙˆÙ…Ù†Ø§Ø³Ø¨Ø© Ù„Ù„Ù†Ø´Ø±"></textarea></label>
+        <div id="relationshipPreview" class="preview"></div>
+        <footer class="form-actions"><button type="button" class="danger" id="deletePersonBtn" hidden>Ø­Ø°Ù Ø§Ù„Ø´Ø®Øµ</button><button type="button" data-close="editorModal">Ø¥Ù„ØºØ§Ø¡</button><button class="primary" type="submit">Ø­ÙØ¸ ÙˆÙ…Ø±Ø§Ø¬Ø¹Ø© Ø§Ù„Ø±Ø¨Ø·</button></footer>
+      </form>
+    </div>
+
+    <div id="requestModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Ø·Ù„Ø¨ ØªØ¹Ø¯ÙŠÙ„">
+      <form id="requestForm" class="modal-card request-card">
+        <header class="modal-head"><div><p class="eyebrow">Ù„Ù„Ù…Ø±Ø§Ø¬Ø¹Ø© ÙÙ‚Ø·</p><h2>Ø§Ù‚ØªØ±Ø­ ØªØ¹Ø¯ÙŠÙ„Ù‹Ø§</h2></div><button type="button" class="close" data-close="requestModal">Ã—</button></header>
+        <p class="soft-note">Ù„Ù† Ù†Ù†Ø´Ø± Ø£ÙŠ ØªØºÙŠÙŠØ± ØªÙ„Ù‚Ø§Ø¦ÙŠÙ‹Ø§. Ù„Ø§ ØªØ±ÙØ¹ Ø£Ùˆ ØªØ±Ø³Ù„ ØµÙˆØ±Ø© Ù‡ÙˆÙŠØ© Ù‡Ù†Ø§.</p>
+        <div class="form-grid"><label>Ø§Ù„Ø§Ø³Ù…<input name="requesterName" required maxlength="80" /></label><label>Ø±Ù‚Ù… Ø§Ù„Ù‡Ø§ØªÙ<input name="phone" type="tel" required inputmode="tel" placeholder="07XXXXXXXX" /></label><label>Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ <span>Ø§Ø®ØªÙŠØ§Ø±ÙŠ</span><input name="email" type="email" /></label><label>Ù…Ø±Ø¬Ø¹ Ø§Ù„Ø´Ø®Øµ <span>Ø§Ø®ØªÙŠØ§Ø±ÙŠ</span><input name="personRef" placeholder="Ø§Ù„Ø§Ø³Ù… Ø£Ùˆ A-1-2" /></label></div>
+        <label>Ø§Ù„ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„Ù…Ù‚ØªØ±Ø­<textarea name="message" required maxlength="1000" placeholder="Ø§Ø´Ø±Ø­ Ø§Ù„ØªØ¹Ø¯ÙŠÙ„ Ø£Ùˆ Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø© Ø¨Ø¥ÙŠØ¬Ø§Ø²"></textarea></label>
+        <div class="form-actions"><button type="button" data-close="requestModal">Ø¥Ù„ØºØ§Ø¡</button><button class="primary" type="submit">ØªØ­Ø¶ÙŠØ± Ø±Ø³Ø§Ù„Ø© Ø§Ù„Ø¨Ø±ÙŠØ¯</button></div>
+        <p id="requestResult" class="request-result" aria-live="polite"></p>
+      </form>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
+
