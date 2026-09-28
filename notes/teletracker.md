@@ -1,127 +1,122 @@
-# TeleTracker — Telegram collection, explained simply
+# TeleTracker, in one simple story
 
-> TeleTracker is a small Python toolkit for authorized Telegram investigations. It can ask a Telegram bot for information, monitor new updates, and use Pyrogram to collect message records and attached media. Use it only for chats, bots, and data that you are legally authorized to examine.
+Imagine a Telegram bot as a guarded door.
 
-![Redacted example of a TeleTracker terminal run](/notes/files/teletracker-output-redacted.svg)
+- The **bot token** is the door's key.
+- The **chat ID** tells the key which room to visit.
+- `API_ID` and `API_HASH` identify the software using Telegram's client system.
+- Pyrogram is the messenger that asks for message records.
+- TeleTracker is the clipboard and camera that records what the authorized investigation can see.
 
-*Illustrative redacted output. Real bot tokens, API values, chat IDs, user IDs, session files, and victim data must never be published.*
+![Redacted TeleTracker terminal example](/notes/files/teletracker-output-redacted.svg)
 
-## The short version
+The images on this page are redacted demonstrations. They contain no real token, API value, victim data, username, or private message.
 
-Think of TeleTracker as three small tools connected together:
+## The whole process
 
 ```text
-Bot token + chat ID
-          |
-          v
-   TeleGatherer.py  -----> Telegram Bot API
-          |
-          +---- monitor new updates
-          +---- show bot/chat information
-          +---- start message collection
-                         |
-                         v
-                   TeleViewer.py
-                         |
-                         +---- Pyrogram + API_ID/API_HASH
-                         +---- save text/log records
-                         +---- download attached media
-
-TeleTexter.py is the small message-sending helper used by the original project.
+1. Enter bot token + chat ID
+              |
+              v
+2. Bot API checks the bot's permissions
+              |
+              v
+3. TeleGatherer asks for chat information or new updates
+              |
+              v
+4. TeleViewer asks Telegram for message IDs one at a time
+              |
+              v
+5. Text is logged; attached media is downloaded
+              |
+              v
+6. Files are saved locally in Downloads/
 ```
 
-## What each file does
+## The bot is the door
 
-### `TeleGatherer.py`
+`TeleGatherer.py` sends HTTPS requests to Telegram's Bot API, such as:
 
-This is the menu-driven main program. It uses the Telegram **Bot API** through `requests`.
+```text
+https://api.telegram.org/bot<TOKEN>/getMe
+https://api.telegram.org/bot<TOKEN>/getChat
+https://api.telegram.org/bot<TOKEN>/getUpdates
+```
 
-It can:
+Telegram checks whether the bot can see the requested chat. A bot cannot magically see every Telegram conversation. The bot token is a credential for one bot, so never put a real token in a screenshot or public repository.
 
-- call `getMe` to identify the bot;
-- call `getChat`, `getChatAdministrators`, and related methods for chat information;
-- poll `getUpdates` for new updates when the bot has access;
-- start the viewer/collector;
-- send files or messages in the original version;
-- delete messages or repeatedly send messages in the original version.
+## Retrieving messages
 
-The last two disruption features are dangerous and should not be used against chats without explicit authorization. The GUI version made for this project intentionally leaves those features out.
+`getUpdates` is mainly for new updates. For older messages, the GUI uses Pyrogram and requests individual message IDs with `get_messages`:
 
-### `TeleViewer.py`
+```text
+latest ID → latest ID - 1 → latest ID - 2 → ... → ID 1
+```
 
-This is the collection part. It uses **Pyrogram**, which is a Python client for Telegram's MTProto API.
+Telegram bots cannot use the MTProto `messages.GetHistory` method. That is why TeleTracker walks through message IDs one at a time. Empty IDs are skipped because IDs can have gaps or messages may have been deleted.
 
-It retrieves message records by message ID, newest first, and can save message IDs, dates, sender information, text, reply markup, text logs, serialized message records, and attached documents, photos, videos, audio, voice messages, and other media Telegram exposes as message media.
+To find the newest ID, this compatibility path briefly sends a dot and deletes it in the authorized chat—the same method used by the original script. That is why a tiny temporary message may appear during a full collection.
 
-The GUI's **Select all messages** mode scans downward from the latest message ID. Telegram bots cannot call `messages.GetHistory`, so this mode uses individual `get_messages` requests instead. To find an upper ID, the current compatibility behavior briefly sends and deletes a dot in the authorized chat—the same approach used by the original script.
+For each available message, TeleTracker can save the ID, date, sender details when supplied, text, reply markup, readable logs, serialized records, and attached documents, photos, videos, audio, voice messages, stickers, and other media exposed by Telegram.
 
-### `TeleTexter.py`
+## The three Python files
 
-This helper sends one Telegram message. The original project also has a continuous-send mode. Treat that mode as a controlled lab feature only; it can violate Telegram rules and disturb other users.
+### `TeleGatherer.py` — the receptionist
+
+Talks to the Bot API, shows bot/chat information, monitors new updates, and starts collection.
+
+### `TeleViewer.py` — the archivist
+
+Uses Pyrogram to request message records and download attached media.
+
+### `TeleTexter.py` — the loudspeaker
+
+Sends a message through the bot. The original project also has continuous sending. Use that only in a controlled authorized test; the GUI does not expose it.
 
 ## What is `.env`?
 
-`.env` is a small local configuration file. It keeps Telegram application settings out of the Python source code.
+`.env` is the application's private settings card:
 
 ```dotenv
 API_ID="12345678"
 API_HASH="your-telegram-api-hash"
 ```
 
-`API_ID` is the numeric identifier for your Telegram application. `API_HASH` is the application hash paired with it. Together, these values tell Pyrogram which Telegram application is making the client connection.
+![Redacted `.env` example](/notes/files/teletracker-env-redacted.svg)
 
-They are **not** your username, bot token, phone number, or login code. They do not independently log in to your Telegram account. Keep them private, especially alongside session files or other credentials.
+`API_ID` is a number identifying your Telegram application. `API_HASH` is the hash paired with that ID. Together they tell Pyrogram which Telegram application is connecting.
 
-## How to get `API_ID` and `API_HASH`
+They are not your username, bot token, phone number, or login code. They do not independently open your account, but keep them private.
 
-1. Open Telegram's official [my.telegram.org](https://my.telegram.org/) website.
-2. Sign in with a Telegram account you control.
-3. Open **API development tools**.
-4. Create an application if needed.
+### Getting the values
+
+1. Open [my.telegram.org](https://my.telegram.org/).
+2. Sign in with an account you control.
+3. Choose **API development tools**.
+4. Create an application.
 5. Copy **App api_id** into `API_ID`.
 6. Copy **App api_hash** into `API_HASH`.
-7. Save both values in `.env` beside the script or GUI executable.
+7. Save `.env` beside the script or `TeleTrackerGUI.exe`.
 
-The GUI can edit these two values, mask them by default, reveal them with its checkbox, and save the `.env` file. Do not commit that file to GitHub.
+The GUI hides these values by default, has a **Show values** checkbox, and can save `.env` beside the executable.
 
-## Bot token versus API values
+## Does “all messages” mean literally everything?
 
-| Value | Used by | What it identifies |
-|---|---|---|
-| Bot token | Telegram Bot API | A specific bot |
-| `API_ID` | Pyrogram/MTProto | A Telegram application |
-| `API_HASH` | Pyrogram/MTProto | The same Telegram application |
-| `.session` file | Pyrogram | A previously authenticated client session |
+No. It means all available message IDs in the scanned range that the authorized bot/client can read.
 
-A bot token is much more immediately powerful: anyone holding it may be able to operate that bot within its permissions. Never publish bot tokens or Pyrogram session files. If a token is exposed, revoke it with `@BotFather`.
+It cannot recover deleted messages, inaccessible private content, or secret-chat history. Telegram interface icons, reactions, and many custom UI elements are metadata—not separate downloadable files. Attached media can be downloaded when Telegram exposes it as message media. Channel/profile avatars are not automatically message attachments.
 
-## Does “all messages” really mean all?
+## Reported case context
 
-No collection tool can promise that every visible Telegram object will be recovered. TeleTracker can scan the message-ID range it is given and collect messages that the bot/client is allowed to access. Limitations include:
+According to the case report supplied for this note, the bot token came from a website that cannot be publicly identified for confidentiality reasons. The report says a phishing email forwarded victims' data to a Telegram bot, and that the authorized investigation used TeleTracker to review the leaked data and notify affected users.
 
-- deleted messages cannot be recovered;
-- private or restricted content may be unavailable;
-- gaps in message IDs are normal;
-- bot permissions affect what can be read;
-- Telegram secret chats are not ordinary cloud-chat history;
-- Telegram interface icons, reactions, and many custom UI elements are metadata, not separate downloadable files;
-- attached media can be downloaded when Telegram exposes it as message media;
-- channel/profile avatars are not automatically the same thing as message media.
+This is reported case context, not an independently verified public finding. Do not publish the source, token, API values, session files, victim data, or unredacted screenshots.
 
-For evidence work, preserve original files, record collection time, calculate hashes, and keep a chain-of-custody record. The original TeleTracker logs are useful working notes, but are not by themselves a complete forensic evidence format.
+## Keep the door secure
 
-## Case note about the reported phishing source
-
-According to the case report provided for this note, the bot token was obtained from a website that cannot be publicly identified for confidentiality reasons. The report says that a phishing email forwarded victims' data to a Telegram bot, and that the authorized investigation used TeleTracker to review the leaked data and notify affected users.
-
-That paragraph records the reported case context; it is not an independent claim that this website or phishing flow has been publicly verified. Do not publish the source, victim data, bot token, API values, or screenshots containing recoverable secrets.
-
-## Safe operating checklist
-
-1. Use a dedicated investigation bot and authorized chat.
-2. Keep `.env`, `.bot-history`, `sessions/`, logs, and downloads private.
-3. Redact tokens, hashes, phone numbers, user IDs, usernames, URLs, and message contents before sharing screenshots.
-4. Prefer read-only collection and monitoring.
-5. Do not use spam or deletion features outside a controlled, authorized test.
-6. Revoke any token that appears in a public issue, screenshot, terminal history, or chat.
+- Never publish bot tokens, `.env`, `.bot-history`, or `.session` files.
+- Redact chat IDs, user IDs, usernames, URLs, message text, and filenames.
+- Use the tool only on data and chats you are authorized to examine.
+- Keep original evidence separate and record collection time and hashes.
+- Revoke a bot token immediately if it appears in a public place.
 
