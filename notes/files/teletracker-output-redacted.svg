@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520">
+  <rect width="1100" height="520" rx="14" fill="#101820"/>
+  <rect width="1100" height="48" rx="14" fill="#263746"/>
+  <circle cx="25" cy="24" r="7" fill="#ff5f56"/><circle cx="48" cy="24" r="7" fill="#ffbd2e"/><circle cx="71" cy="24" r="7" fill="#27c93f"/>
+  <text x="95" y="30" fill="#d9e3ea" font-family="Consolas,monospace" font-size="18">TeleTracker — redacted example output</text>
+  <text x="28" y="88" fill="#9fe7c2" font-family="Consolas,monospace" font-size="18">PS&gt; python .\TeleGatherer.py -t [REDACTED] -c [REDACTED]</text>
+  <text x="28" y="125" fill="#d9e3ea" font-family="Consolas,monospace" font-size="18">Bot Information:</text>
+  <text x="52" y="157" fill="#c6d4dc" font-family="Consolas,monospace" font-size="17">username: [REDACTED]</text>
+  <text x="52" y="187" fill="#c6d4dc" font-family="Consolas,monospace" font-size="17">id: [REDACTED]</text>
+  <text x="28" y="230" fill="#d9e3ea" font-family="Consolas,monospace" font-size="18">Download:</text>
+  <text x="52" y="262" fill="#9fe7c2" font-family="Consolas,monospace" font-size="17">Processed message [REDACTED]</text>
+  <text x="52" y="292" fill="#9fe7c2" font-family="Consolas,monospace" font-size="17">Media saved: [REDACTED]</text>
+  <text x="52" y="322" fill="#9fe7c2" font-family="Consolas,monospace" font-size="17">All available messages processed.</text>
+  <rect x="28" y="362" width="1044" height="104" rx="8" fill="#3a1518" stroke="#ff4d5a" stroke-width="3"/>
+  <text x="50" y="397" fill="#ff8189" font-family="Arial,sans-serif" font-size="20" font-weight="bold">REDACTED BEFORE PUBLICATION</text>
+  <text x="50" y="430" fill="#ffd5d7" font-family="Arial,sans-serif" font-size="17">Tokens, API values, chat IDs, usernames, message text, and victim data are hidden.</text>
+</svg>

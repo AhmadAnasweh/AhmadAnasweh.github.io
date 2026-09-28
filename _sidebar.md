@@ -6,6 +6,7 @@ grouped by each note's Category field. No manual sidebar edit is required. -->
 - **Investigations**
   - [Sample SOC investigation walkthrough](/notes/sample-soc-investigation-walkthrough.md)
 - **My tools**
+  - [📨 TeleTracker — Telegram collection](/notes/teletracker.md)
   - [🧩 EasyParse — log parsing](/notes/easyparse.md)
   - [💾 DiskConn — disk-image connections](/notes/diskconn.md)
   - [🔎 CheckIt — bulk VirusTotal checks](/notes/checkit.md)
