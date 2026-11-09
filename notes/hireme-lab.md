@@ -57,6 +57,8 @@ or if you want to be more professional
 
 Q5: **What is the zip code of the administrator's post?**
 
+Go to `Appdata\Local\Google\Chrome\User Data\Default`, you will find `Web Data` there, export it and use DB Browser for SQLite to open this database file
+
 ![Screenshot](/notes/files/image-1789840384804-af574fff.png)
 
 **Q6: What are the initials of the person who contacted the admin user from TAAUSAI?**
