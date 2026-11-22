@@ -11,15 +11,15 @@ created: 2026-09-20T01:50:00Z
 
 **One memory image. A traceable investigation.** RAMBreaker is my workflow layer around Volatility 3 and Volatility 2. You give it a RAM image; it detects the operating system, picks the right engine, runs the relevant plugins in parallel, connects their evidence, and shows the result in a desktop app and in a self-contained `report.html`. The raw plugin JSON and text stay beside the report, so you can always check where a finding came from instead of accepting a summary on faith.
 
-**Version 2.5.0 is the Windows edition**: one folder you start with `RAMBreaker.exe` on Windows 10 or 11. Python, Volatility 3 2.28.2 and Volatility 2 2.6.1 are inside; there is nothing to install and no WSL or Docker. It analyses Windows, Linux and macOS memory images (`.raw .mem .vmem .lime .dmp .bin .img`). **Nothing is ever uploaded**: network access is only used to fetch symbol tables for unknown Linux kernels, and for optional threat-intel updates and VirusTotal hash lookups that you switch on yourself.
+**Version 2.6.0 is the Windows edition**: one folder you start with `RAMBreaker.exe` on Windows 10 or 11. Python, Volatility 3 2.28.2 and Volatility 2 2.6.1 are inside; there is nothing to install and no WSL or Docker. It analyses Windows, Linux and macOS memory images (`.raw .mem .vmem .lime .dmp .bin .img`). **Nothing is ever uploaded**: network access is only used to fetch symbol tables for unknown Linux kernels, and for optional threat-intel updates and VirusTotal hash lookups that you switch on yourself.
 
 RAMBreaker reports observations for an investigator to assess. A suspicious process or memory region is **not** an automatic malware verdict.
 
-> **This page is the manual.** Every screenshot below comes from a real v2.5.0 run of the released build on `Windows2.raw`, a public Windows 7 CTF memory image.
+> **This page is the manual.** Every screenshot below comes from a real v2.5.0 run of the released build on `Windows2.raw`, a public Windows 7 CTF memory image; the threat-intel databases window shows v2.6.0 during a real update.
 
 ## Download
 
-- **[Download RAMBreaker v2.5.0 for Windows](https://github.com/AhmadAnasweh/RAMBreaker/releases/latest)** (`RAMBreaker_v2.5.0_windows_x64.zip`, 1.09 GB). SHA-256: `ed3383aa024837b371daf70f883d17dfc95d1e5feb97f2596da1d243057298db`
+- **[Download RAMBreaker v2.6.0 for Windows](https://github.com/AhmadAnasweh/RAMBreaker/releases/latest)** (`RAMBreaker_v2.6.0_windows_x64.zip`, 1.09 GB). SHA-256: `1ecaa476f2843f1bd77f8bbf2c88d128f9eb616cfb098e88ec3c9b7d69b4bc13`
 - [Source code](https://github.com/AhmadAnasweh/RAMBreaker), [changelog](https://github.com/AhmadAnasweh/RAMBreaker/blob/main/CHANGELOG.md), [component versions](https://github.com/AhmadAnasweh/RAMBreaker/blob/main/VERSIONS.md).
 - The original Linux command-line toolkit (v6.2) stays available as the [`v6.2` tag](https://github.com/AhmadAnasweh/RAMBreaker/tree/v6.2).
 
@@ -27,7 +27,7 @@ RAMBreaker reports observations for an investigator to assess. A suspicious proc
 
 ## 1. Install and first start
 
-1. Download the zip and extract it to a folder of your choice, preferably on an SSD (for example `C:\Tools\RAMBreaker_v2.5.0`). The folder is about 1.4 GB, plus room for your cases.
+1. Download the zip and extract it to a folder of your choice, preferably on an SSD (for example `C:\Tools\RAMBreaker_v2.6.0`). The folder is about 1.4 GB, plus room for your cases.
 2. Double-click `RAMBreaker.exe`.
 3. A guided tour runs on the first start. It points at each part of the window; you can restart it any time with **Tour** in the toolbar.
 
@@ -310,11 +310,11 @@ The **DFIR + Threat Intel** preset answers *"is anything in this image known to 
 5. A scored **"look here first"** list. Each entry says why it is there.
 6. **VirusTotal only if you enter a key.** Only hashes, public IPs and domains from the short list are looked up; files are never uploaded, private IPs and internal names are never sent, and everything that was sent is listed in `vt_sent.txt`. The key is stored DPAPI-encrypted for your Windows user only if you tick *Remember*.
 
-The databases go out of date. The options window and **Settings > Threat-intel databases** show the age of each source and offer an **Update**; updating is never automatic.
+The databases go out of date. The options window and **Settings > Threat-intel databases** show the age and size of each source and offer an **Update**; updating is never automatic. While an update runs you see which database is being fetched, how much is downloaded and how much is left, the download speed and the time left, and you can **Pause**, **Resume** or **Cancel** it. Cancel keeps the previous copy of the database being fetched; VirusShare continues from the last list it installed. **Delete ticked downloads** frees the space of downloaded copies (copies that ship with RAMBreaker stay), and the window shows the free disk space; an update that needs more space than the drive has asks first.
 
-![Threat-intel databases and their ages](/notes/files/rambreaker-v2-ti-databases.png)
+![Threat-intel databases during an update: progress, speed, time left, Pause and Cancel](/notes/files/rambreaker-v2-ti-databases.png)
 
-*The threat-intel databases. Sources that may not be redistributed are downloaded to your PC only when you choose Update. [Open full size](https://ahmad.anasweh.com/notes/files/rambreaker-v2-ti-databases.png).*
+*The threat-intel databases during an update (v2.6.0): IPsum is downloading, 1.4 MB left at 383.8 KB/s. Sources that may not be redistributed are downloaded to your PC only when you choose Update. [Open full size](https://ahmad.anasweh.com/notes/files/rambreaker-v2-ti-databases.png).*
 
 Results go to the report's **Threat Intelligence** tab and to `<case>\threat_intelligence\`. **Analysis > Threat intel on this case** adds threat intel to a case analysed earlier.
 
